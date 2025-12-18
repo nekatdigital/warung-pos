@@ -59,10 +59,10 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                 {/* Total Revenue */}
                 <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white col-span-2">
                     <p className="text-black font-bold text-xl">💰 TOTAL UANG DI KASIR</p>
-                    <p className="text-5xl font-bold mt-2">
+                    <p className="text-5xl font-bold mt-2 text-black">
                         {formatCurrency(report.total_revenue)}
                     </p>
-                    <p className="text-green-100 mt-2">
+                    <p className="text-black font-semibold mt-2">
                         {report.total_transactions} transaksi
                     </p>
                 </div>
@@ -70,15 +70,15 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                 {/* Warung Owned */}
                 <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white">
                     <p className="text-black font-bold text-lg">🏠 Milik Warung</p>
-                    <p className="text-3xl font-bold mt-2">{formatCurrency(warungOwned)}</p>
-                    <p className="text-blue-100 text-sm mt-1">Bisa diambil</p>
+                    <p className="text-3xl font-bold mt-2 text-black">{formatCurrency(warungOwned)}</p>
+                    <p className="text-black text-sm mt-1 font-semibold">Bisa diambil</p>
                 </div>
 
                 {/* Vendor Owed */}
                 <div className="card bg-gradient-to-br from-amber-500 to-amber-600 text-white">
                     <p className="text-black font-bold text-lg">🤝 Uang Titipan</p>
-                    <p className="text-3xl font-bold mt-2">{formatCurrency(vendorOwed)}</p>
-                    <p className="text-amber-100 text-sm mt-1">Wajib setor vendor</p>
+                    <p className="text-3xl font-bold mt-2 text-black">{formatCurrency(vendorOwed)}</p>
+                    <p className="text-black text-sm mt-1 font-semibold">Wajib setor vendor</p>
                 </div>
             </div>
 
