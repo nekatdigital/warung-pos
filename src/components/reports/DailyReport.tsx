@@ -114,7 +114,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                         </span>
                     </div>
 
-                    <div className="flex justify-between items-center p-3 bg-amber-50 rounded-xl">
+                    <div className="flex justify-between items-center p-3 rounded-xl" style={{ backgroundColor: '#FEF5E7' }}>
                         <div className="flex items-center gap-3">
                             <span className="text-2xl">🤝</span>
                             <div>
@@ -122,7 +122,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                                 <p className="text-sm text-slate-500">Kerupuk, Gorengan, dll</p>
                             </div>
                         </div>
-                        <span className="text-xl font-bold text-amber-600">
+                        <span className="text-xl font-bold" style={{ color: '#E67E22' }}>
                             {formatCurrency(report.consignment_total)}
                         </span>
                     </div>
