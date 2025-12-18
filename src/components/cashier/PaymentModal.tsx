@@ -73,11 +73,11 @@ export function PaymentModal({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden">
                 {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b bg-green-600 text-white">
-                    <h2 className="text-2xl font-bold">💵 Pembayaran</h2>
+                <div className="flex-shrink-0 flex items-center justify-between p-4 border-b bg-green-600 text-white">
+                    <h2 className="text-xl sm:text-2xl font-bold">💵 Pembayaran</h2>
                     <button
                         onClick={onClose}
                         className="p-2 hover:bg-white/20 rounded-full transition-colors"
@@ -86,12 +86,12 @@ export function PaymentModal({
                     </button>
                 </div>
 
-                {/* Content */}
-                <div className="p-6 space-y-6">
+                {/* Content - Scrollable */}
+                <div className="flex-1 overflow-y-auto px-4 sm:px-6 py-4 sm:py-6 space-y-4 sm:space-y-6">
                     {/* Order Summary */}
-                    <div className="bg-slate-50 rounded-xl p-4">
+                    <div className="bg-slate-50 rounded-xl p-3 sm:p-4">
                         <p className="text-slate-500 text-sm mb-2">Ringkasan Pesanan</p>
-                        <div className="max-h-32 overflow-y-auto space-y-1">
+                        <div className="max-h-24 sm:max-h-32 overflow-y-auto space-y-1">
                             {items.map((item) => (
                                 <div key={item.id} className="flex justify-between text-sm">
                                     <span>
@@ -107,30 +107,30 @@ export function PaymentModal({
 
                     {/* Total Display */}
                     <div className="text-center">
-                        <p className="text-slate-500 text-lg">Total Bayar</p>
-                        <p className="text-4xl font-bold text-slate-800">
+                        <p className="text-slate-500 text-base sm:text-lg">Total Bayar</p>
+                        <p className="text-2xl sm:text-4xl font-bold text-slate-800">
                             Rp {total.toLocaleString('id-ID')}
                         </p>
                     </div>
 
                     {/* Cash Input */}
                     <div>
-                        <label className="block text-slate-600 font-medium mb-2">
+                        <label className="block text-slate-600 text-sm sm:text-base font-medium mb-2">
                             Uang Diterima
                         </label>
                         <input
                             type="text"
                             value={`Rp ${parseInt(inputValue || '0').toLocaleString('id-ID')}`}
                             onChange={handleInputChange}
-                            className="w-full text-3xl font-bold text-center p-4 border-2 border-slate-300 rounded-xl focus:border-green-500 focus:outline-none"
+                            className="w-full text-xl sm:text-3xl font-bold text-center p-3 sm:p-4 border-2 border-slate-300 rounded-xl focus:border-green-500 focus:outline-none"
                         />
                     </div>
 
                     {/* Quick Cash Buttons */}
-                    <div className="grid grid-cols-2 gap-3">
+                    <div className="grid grid-cols-2 gap-2 sm:gap-3">
                         <button
                             onClick={handleExactCash}
-                            className="money-btn bg-green-100 border-green-300 text-green-800"
+                            className="money-btn bg-green-100 border-green-300 text-green-800 text-sm sm:text-base"
                         >
                             🎯 Uang Pas
                         </button>
@@ -138,7 +138,7 @@ export function PaymentModal({
                             <button
                                 key={option.value}
                                 onClick={() => handleQuickCash(option.value)}
-                                className="money-btn"
+                                className="money-btn text-sm sm:text-base"
                                 disabled={option.value < total}
                             >
                                 {option.label}
@@ -149,16 +149,16 @@ export function PaymentModal({
                     {/* Change Display */}
                     {cashReceived > 0 && (
                         <div
-                            className={`text-center p-4 rounded-xl ${isValid
+                            className={`text-center p-3 sm:p-4 rounded-xl ${isValid
                                 ? 'bg-green-100 border-2 border-green-300'
                                 : 'bg-red-100 border-2 border-red-300'
                                 }`}
                         >
-                            <p className={`text-lg ${isValid ? 'text-green-700' : 'text-red-700'}`}>
+                            <p className={`text-base sm:text-lg ${isValid ? 'text-green-700' : 'text-red-700'}`}>
                                 {isValid ? 'Kembalian' : 'Kurang'}
                             </p>
                             <p
-                                className={`text-3xl font-bold ${isValid ? 'text-green-800' : 'text-red-800'
+                                className={`text-xl sm:text-3xl font-bold ${isValid ? 'text-green-800' : 'text-red-800'
                                     }`}
                             >
                                 Rp {Math.abs(change).toLocaleString('id-ID')}
@@ -167,18 +167,18 @@ export function PaymentModal({
                     )}
                 </div>
 
-                {/* Footer */}
-                <div className="p-4 border-t bg-slate-50 flex gap-3">
-                    <button onClick={onClose} className="flex-1 btn-secondary">
+                {/* Footer - Sticky */}
+                <div className="flex-shrink-0 p-3 sm:p-4 border-t bg-slate-50 flex gap-2 sm:gap-3">
+                    <button onClick={onClose} className="flex-1 btn-secondary text-sm sm:text-base">
                         Batal
                     </button>
                     <button
                         onClick={handleConfirm}
                         disabled={!isValid}
-                        className={`flex-1 btn-primary flex items-center justify-center gap-2 ${!isValid ? 'opacity-50 cursor-not-allowed' : ''
+                        className={`flex-1 btn-primary flex items-center justify-center gap-2 text-sm sm:text-base ${!isValid ? 'opacity-50 cursor-not-allowed' : ''
                             }`}
                     >
-                        <Check size={24} />
+                        <Check size={20} />
                         SELESAI
                     </button>
                 </div>
