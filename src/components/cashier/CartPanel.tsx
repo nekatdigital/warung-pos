@@ -51,59 +51,64 @@ export function CartPanel({
                         {items.map((item) => (
                             <div
                                 key={item.id}
-                                className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl"
+                                className="flex flex-col gap-3 p-4 bg-slate-50 rounded-xl"
                             >
-                                {/* Emoji */}
-                                <div className="w-14 h-14 flex-shrink-0 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm">
-                                    {item.emoji || '🍽️'}
+                                <div className="flex items-start gap-4">
+                                    {/* Emoji */}
+                                    <div className="w-14 h-14 flex-shrink-0 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm">
+                                        {item.emoji || '🍽️'}
+                                    </div>
+
+                                    {/* Item Info - Name and Price */}
+                                    <div className="flex-1 min-w-0">
+                                        <p className="font-bold text-slate-800 truncate">{item.name}</p>
+                                        <p className="text-sm text-slate-500">
+                                            Rp {item.price.toLocaleString('id-ID')}
+                                        </p>
+                                        {item.product_type === 'CONSIGNMENT' && item.vendor_name && (
+                                            <span className="badge-consignment text-xs">
+                                                {item.vendor_name}
+                                            </span>
+                                        )}
+                                    </div>
+
+                                    {/* Remove Button */}
+                                    <button
+                                        onClick={() => onRemoveItem(item.id)}
+                                        className="p-2 flex-shrink-0 text-slate-400 hover:text-red-500 transition-colors"
+                                    >
+                                        <Trash2 size={18} />
+                                    </button>
                                 </div>
 
-                                {/* Item Info */}
-                                <div className="flex-1 min-w-0">
-                                    <p className="font-bold text-slate-800 truncate">{item.name}</p>
-                                    <p className="text-slate-500">
-                                        Rp {item.price.toLocaleString('id-ID')}
-                                    </p>
-                                    {item.product_type === 'CONSIGNMENT' && item.vendor_name && (
-                                        <span className="badge-consignment text-xs">
-                                            {item.vendor_name}
+                                {/* Bottom Row - Quantity Controls and Subtotal */}
+                                <div className="flex items-center justify-between gap-3 pl-2">
+                                    {/* Quantity Controls */}
+                                    <div className="flex items-center gap-2 flex-shrink-0">
+                                        <button
+                                            onClick={() => onUpdateQuantity(item.id, -1)}
+                                            className="qty-btn text-red-500"
+                                        >
+                                            <Minus size={20} />
+                                        </button>
+                                        <span className="w-8 text-center font-bold text-lg">
+                                            {item.quantity}
                                         </span>
-                                    )}
-                                </div>
+                                        <button
+                                            onClick={() => onUpdateQuantity(item.id, 1)}
+                                            className="qty-btn text-green-500"
+                                        >
+                                            <Plus size={20} />
+                                        </button>
+                                    </div>
 
-                                {/* Quantity Controls */}
-                                <div className="flex items-center gap-3 flex-shrink-0">
-                                    <button
-                                        onClick={() => onUpdateQuantity(item.id, -1)}
-                                        className="qty-btn text-red-500"
-                                    >
-                                        <Minus size={20} />
-                                    </button>
-                                    <span className="w-8 text-center font-bold text-xl">
-                                        {item.quantity}
-                                    </span>
-                                    <button
-                                        onClick={() => onUpdateQuantity(item.id, 1)}
-                                        className="qty-btn text-green-500"
-                                    >
-                                        <Plus size={20} />
-                                    </button>
+                                    {/* Subtotal */}
+                                    <div className="text-right flex-shrink-0">
+                                        <p className="font-bold text-slate-800">
+                                            Rp {(item.price * item.quantity).toLocaleString('id-ID')}
+                                        </p>
+                                    </div>
                                 </div>
-
-                                {/* Subtotal */}
-                                <div className="w-28 text-right flex-shrink-0">
-                                    <p className="font-bold text-slate-800">
-                                        Rp {(item.price * item.quantity).toLocaleString('id-ID')}
-                                    </p>
-                                </div>
-
-                                {/* Remove Button */}
-                                <button
-                                    onClick={() => onRemoveItem(item.id)}
-                                    className="p-2 flex-shrink-0 text-slate-400 hover:text-red-500 transition-colors"
-                                >
-                                    <Trash2 size={18} />
-                                </button>
                             </div>
                         ))}
                     </div>
