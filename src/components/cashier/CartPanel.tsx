@@ -51,7 +51,7 @@ export function CartPanel({
                         {items.map((item) => (
                             <div
                                 key={item.id}
-                                className="flex flex-col gap-3 p-4 bg-slate-50 rounded-xl"
+                                className="flex flex-col gap-3 p-4 rounded-xl" style={{ backgroundColor: '#FFF8F1' }}
                             >
                                 <div className="flex items-start gap-4">
                                     {/* Emoji */}
