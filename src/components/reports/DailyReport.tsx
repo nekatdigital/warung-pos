@@ -101,7 +101,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                         </span>
                     </div>
 
-                    <div className="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+                    <div className="flex justify-between items-center p-3 rounded-xl" style={{ backgroundColor: '#FFF8F1' }}>
                         <div className="flex items-center gap-3">
                             <span className="text-2xl">📦</span>
                             <div>
@@ -109,7 +109,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                                 <p className="text-sm text-slate-500">Aqua, Teh Pucuk, dll</p>
                             </div>
                         </div>
-                        <span className="text-xl font-bold text-slate-600">
+                        <span className="text-xl font-bold" style={{ color: '#5A6C7D' }}>
                             {formatCurrency(report.resell_total)}
                         </span>
                     </div>
