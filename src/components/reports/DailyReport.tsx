@@ -58,7 +58,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
             <div className="grid grid-cols-2 gap-4">
                 {/* Total Revenue */}
                 <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white col-span-2">
-                    <p className="text-green-100 text-xl">💰 TOTAL UANG DI KASIR</p>
+                    <p className="text-black font-bold text-xl">💰 TOTAL UANG DI KASIR</p>
                     <p className="text-5xl font-bold mt-2">
                         {formatCurrency(report.total_revenue)}
                     </p>
@@ -69,14 +69,14 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
 
                 {/* Warung Owned */}
                 <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-                    <p className="text-blue-100 text-lg">🏠 Milik Warung</p>
+                    <p className="text-black font-bold text-lg">🏠 Milik Warung</p>
                     <p className="text-3xl font-bold mt-2">{formatCurrency(warungOwned)}</p>
                     <p className="text-blue-100 text-sm mt-1">Bisa diambil</p>
                 </div>
 
                 {/* Vendor Owed */}
                 <div className="card bg-gradient-to-br from-amber-500 to-amber-600 text-white">
-                    <p className="text-amber-100 text-lg">🤝 Uang Titipan</p>
+                    <p className="text-black font-bold text-lg">🤝 Uang Titipan</p>
                     <p className="text-3xl font-bold mt-2">{formatCurrency(vendorOwed)}</p>
                     <p className="text-amber-100 text-sm mt-1">Wajib setor vendor</p>
                 </div>
