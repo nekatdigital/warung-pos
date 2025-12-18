@@ -24,7 +24,7 @@ function Navigation() {
                 to="/"
                 className={({ isActive }) =>
                   `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-orange-100 text-orange-700'
                     : 'text-slate-600 hover:bg-slate-100'
                   }`
                 }
