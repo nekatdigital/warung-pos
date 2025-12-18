@@ -159,8 +159,8 @@ export function PaymentModal({
                                 {isValid ? 'Kembalian' : 'Kurang'}
                             </p>
                             <p
-                                className={`text-xl sm:text-3xl font-bold ${isValid ? 'text-green-800' : 'text-red-800'
-                                    }`}
+                                className={`text-xl sm:text-3xl font-bold`}
+                                style={isValid ? { color: '#27AE60' } : { color: '#C0392B' }}
                             >
                                 Rp {Math.abs(change).toLocaleString('id-ID')}
                             </p>
