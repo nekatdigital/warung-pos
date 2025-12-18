@@ -153,9 +153,9 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                             </div>
                         ))}
                     </div>
-                    <div className="flex justify-between items-center p-3 mt-3 bg-amber-200 rounded-xl">
-                        <span className="font-bold text-amber-800">TOTAL SETOR</span>
-                        <span className="text-2xl font-bold text-amber-800">
+                    <div className="flex justify-between items-center p-3 mt-3 rounded-xl" style={{ backgroundColor: '#F5D5B8' }}>
+                        <span className="font-bold" style={{ color: '#C0392B' }}>TOTAL SETOR</span>
+                        <span className="text-2xl font-bold" style={{ color: '#C0392B' }}>
                             {formatCurrency(vendorOwed)}
                         </span>
                     </div>
