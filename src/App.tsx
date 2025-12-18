@@ -24,7 +24,7 @@ function Navigation() {
                 to="/"
                 className={({ isActive }) =>
                   `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-orange-100 text-orange-700'
                     : 'text-slate-600 hover:bg-slate-100'
                   }`
                 }
@@ -37,7 +37,7 @@ function Navigation() {
                 to="/laporan"
                 className={({ isActive }) =>
                   `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-orange-100 text-orange-700'
                     : 'text-slate-600 hover:bg-slate-100'
                   }`
                 }
@@ -50,7 +50,7 @@ function Navigation() {
                 to="/pengaturan"
                 className={({ isActive }) =>
                   `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-orange-100 text-orange-700'
                     : 'text-slate-600 hover:bg-slate-100'
                   }`
                 }
@@ -68,7 +68,7 @@ function Navigation() {
 
 function SettingsPage() {
   return (
-    <div className="min-h-screen bg-slate-100 py-6">
+    <div className="min-h-screen py-6" style={{ backgroundColor: '#F9F7F5' }}>
       <div className="max-w-2xl mx-auto p-4">
         <h1 className="text-3xl font-bold text-slate-800 mb-6">⚙️ Pengaturan</h1>
 

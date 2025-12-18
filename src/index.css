@@ -2,17 +2,17 @@
 
 /* Custom CSS Variables for Warung POS */
 :root {
-  /* Colors */
-  --color-primary: #22c55e;
-  --color-primary-hover: #16a34a;
-  --color-danger: #ef4444;
-  --color-danger-hover: #dc2626;
-  --color-warning: #f59e0b;
-  --color-warning-light: #fef3c7;
-  --color-bg: #f8fafc;
-  --color-card: #ffffff;
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
+  /* Colors - Modern Warmth Palette */
+  --color-primary: #E05D34;
+  --color-primary-hover: #C84A24;
+  --color-danger: #C0392B;
+  --color-danger-hover: #A03022;
+  --color-warning: #E67E22;
+  --color-warning-light: #FCE8D0;
+  --color-bg: #F9F7F5;
+  --color-card: #FFFFFF;
+  --color-text: #2D3748;
+  --color-text-muted: #5A6C7D;
   
   /* Touch-friendly sizing */
   --touch-min: 48px;
@@ -98,7 +98,7 @@ a,
 }
 
 .btn-secondary {
-  background-color: #e2e8f0;
+  background-color: #F0E9E2;
   color: var(--color-text);
   font-weight: 600;
   font-size: var(--font-large);
@@ -110,7 +110,7 @@ a,
 }
 
 .btn-secondary:hover {
-  background-color: #cbd5e1;
+  background-color: #E5D9D1;
 }
 
 .btn-secondary:active {
@@ -156,22 +156,22 @@ a,
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #FFF8F1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #E5D9D1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #D4C5BB;
 }
 
 /* Money button styling */
 .money-btn {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border: 2px solid #cbd5e1;
+  background: linear-gradient(135deg, #FFF8F1 0%, #F0E9E2 100%);
+  border: 2px solid #E5D9D1;
   border-radius: 12px;
   padding: 1rem;
   font-size: var(--font-large);
@@ -181,8 +181,8 @@ a,
 }
 
 .money-btn:hover {
-  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-  border-color: #94a3b8;
+  background: linear-gradient(135deg, #F0E9E2 0%, #E5D9D1 100%);
+  border-color: #D4C5BB;
 }
 
 .money-btn:active {
@@ -217,7 +217,7 @@ a,
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #E5D9D1;
   background: white;
   font-size: 24px;
   font-weight: bold;
@@ -229,8 +229,8 @@ a,
 }
 
 .qty-btn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #FFF8F1;
+  border-color: #D4C5BB;
 }
 
 .qty-btn:active {

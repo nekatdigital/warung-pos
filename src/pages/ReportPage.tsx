@@ -45,7 +45,7 @@ export function ReportPage() {
     }, [fetchReport]);
 
     return (
-        <div className="min-h-screen bg-slate-100 py-6">
+        <div className="min-h-screen py-6" style={{ backgroundColor: '#F9F7F5' }}>
             <DailyReport
                 report={report}
                 onRefresh={fetchReport}

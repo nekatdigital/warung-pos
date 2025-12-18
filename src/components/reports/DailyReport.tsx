@@ -57,28 +57,28 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
             {/* Main Stats Cards */}
             <div className="grid grid-cols-2 gap-4">
                 {/* Total Revenue */}
-                <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white col-span-2">
-                    <p className="text-green-100 text-xl">💰 TOTAL UANG DI KASIR</p>
-                    <p className="text-5xl font-bold mt-2">
+                <div className="card text-white col-span-2" style={{ background: 'linear-gradient(to bottom right, #E05D34, #C84A24)' }}>
+                    <p className="text-black font-bold text-xl">💰 TOTAL UANG DI KASIR</p>
+                    <p className="text-5xl font-bold mt-2 text-black">
                         {formatCurrency(report.total_revenue)}
                     </p>
-                    <p className="text-green-100 mt-2">
+                    <p className="text-black font-semibold mt-2">
                         {report.total_transactions} transaksi
                     </p>
                 </div>
 
                 {/* Warung Owned */}
-                <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white">
-                    <p className="text-blue-100 text-lg">🏠 Milik Warung</p>
-                    <p className="text-3xl font-bold mt-2">{formatCurrency(warungOwned)}</p>
-                    <p className="text-blue-100 text-sm mt-1">Bisa diambil</p>
+                <div className="card text-white" style={{ background: 'linear-gradient(to bottom right, #4A90E2, #357ABD)' }}>
+                    <p className="text-black font-bold text-lg">🏠 Milik Warung</p>
+                    <p className="text-3xl font-bold mt-2 text-black">{formatCurrency(warungOwned)}</p>
+                    <p className="text-black text-sm mt-1 font-semibold">Bisa diambil</p>
                 </div>
 
                 {/* Vendor Owed */}
-                <div className="card bg-gradient-to-br from-amber-500 to-amber-600 text-white">
-                    <p className="text-amber-100 text-lg">🤝 Uang Titipan</p>
-                    <p className="text-3xl font-bold mt-2">{formatCurrency(vendorOwed)}</p>
-                    <p className="text-amber-100 text-sm mt-1">Wajib setor vendor</p>
+                <div className="card text-white" style={{ background: 'linear-gradient(to bottom right, #E67E22, #D45113)' }}>
+                    <p className="text-black font-bold text-lg">🤝 Uang Titipan</p>
+                    <p className="text-3xl font-bold mt-2 text-black">{formatCurrency(vendorOwed)}</p>
+                    <p className="text-black text-sm mt-1 font-semibold">Wajib setor vendor</p>
                 </div>
             </div>
 
@@ -88,7 +88,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                     📋 Rincian Penjualan
                 </h2>
                 <div className="space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded-xl">
+                    <div className="flex justify-between items-center p-3 rounded-xl" style={{ backgroundColor: '#EBF5FB' }}>
                         <div className="flex items-center gap-3">
                             <span className="text-2xl">🍳</span>
                             <div>
@@ -96,12 +96,12 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                                 <p className="text-sm text-slate-500">Nasi Goreng, Es Teh, dll</p>
                             </div>
                         </div>
-                        <span className="text-xl font-bold text-blue-600">
+                        <span className="text-xl font-bold" style={{ color: '#4A90E2' }}>
                             {formatCurrency(report.own_production_total)}
                         </span>
                     </div>
 
-                    <div className="flex justify-between items-center p-3 bg-slate-50 rounded-xl">
+                    <div className="flex justify-between items-center p-3 rounded-xl" style={{ backgroundColor: '#FFF8F1' }}>
                         <div className="flex items-center gap-3">
                             <span className="text-2xl">📦</span>
                             <div>
@@ -109,12 +109,12 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                                 <p className="text-sm text-slate-500">Aqua, Teh Pucuk, dll</p>
                             </div>
                         </div>
-                        <span className="text-xl font-bold text-slate-600">
+                        <span className="text-xl font-bold" style={{ color: '#5A6C7D' }}>
                             {formatCurrency(report.resell_total)}
                         </span>
                     </div>
 
-                    <div className="flex justify-between items-center p-3 bg-amber-50 rounded-xl">
+                    <div className="flex justify-between items-center p-3 rounded-xl" style={{ backgroundColor: '#FEF5E7' }}>
                         <div className="flex items-center gap-3">
                             <span className="text-2xl">🤝</span>
                             <div>
@@ -122,7 +122,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                                 <p className="text-sm text-slate-500">Kerupuk, Gorengan, dll</p>
                             </div>
                         </div>
-                        <span className="text-xl font-bold text-amber-600">
+                        <span className="text-xl font-bold" style={{ color: '#E67E22' }}>
                             {formatCurrency(report.consignment_total)}
                         </span>
                     </div>
@@ -131,8 +131,8 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
 
             {/* Vendor Payouts */}
             {report.vendor_payouts.length > 0 && (
-                <div className="card border-2 border-amber-300 bg-amber-50">
-                    <h2 className="text-xl font-bold text-amber-800 mb-4 flex items-center gap-2">
+                <div className="card border-2" style={{ borderColor: '#E5C4A0', backgroundColor: '#FCE8D0' }}>
+                    <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: '#C0392B' }}>
                         ⚠️ Wajib Setor ke Vendor
                     </h2>
                     <div className="space-y-3">
@@ -153,9 +153,9 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                             </div>
                         ))}
                     </div>
-                    <div className="flex justify-between items-center p-3 mt-3 bg-amber-200 rounded-xl">
-                        <span className="font-bold text-amber-800">TOTAL SETOR</span>
-                        <span className="text-2xl font-bold text-amber-800">
+                    <div className="flex justify-between items-center p-3 mt-3 rounded-xl" style={{ backgroundColor: '#F5D5B8' }}>
+                        <span className="font-bold" style={{ color: '#C0392B' }}>TOTAL SETOR</span>
+                        <span className="text-2xl font-bold" style={{ color: '#C0392B' }}>
                             {formatCurrency(vendorOwed)}
                         </span>
                     </div>
