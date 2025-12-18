@@ -98,7 +98,7 @@ a,
 }
 
 .btn-secondary {
-  background-color: #e2e8f0;
+  background-color: #F0E9E2;
   color: var(--color-text);
   font-weight: 600;
   font-size: var(--font-large);
@@ -110,7 +110,7 @@ a,
 }
 
 .btn-secondary:hover {
-  background-color: #cbd5e1;
+  background-color: #E5D9D1;
 }
 
 .btn-secondary:active {
