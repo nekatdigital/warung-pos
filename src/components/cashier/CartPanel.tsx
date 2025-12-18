@@ -96,8 +96,8 @@ export function CartPanel({
                                         </span>
                                         <button
                                             onClick={() => onUpdateQuantity(item.id, 1)}
-                                            className="qty-btn text-green-500"
-                                        >
+                                        className="qty-btn" style={{ color: '#27AE60' }}
+                                    >
                                             <Plus size={20} />
                                         </button>
                                     </div>
