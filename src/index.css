@@ -217,7 +217,7 @@ a,
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #E5D9D1;
   background: white;
   font-size: 24px;
   font-weight: bold;
@@ -229,8 +229,8 @@ a,
 }
 
 .qty-btn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #FFF8F1;
+  border-color: #D4C5BB;
 }
 
 .qty-btn:active {
