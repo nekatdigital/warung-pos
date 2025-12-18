@@ -130,7 +130,7 @@ export function PaymentModal({
                     <div className="grid grid-cols-2 gap-2 sm:gap-3">
                         <button
                             onClick={handleExactCash}
-                            className="money-btn bg-green-100 border-green-300 text-green-800 text-sm sm:text-base"
+                            className="money-btn text-sm sm:text-base" style={{ backgroundColor: '#FCE8D0', borderColor: '#E5C4A0', color: '#E05D34' }}
                         >
                             🎯 Uang Pas
                         </button>
