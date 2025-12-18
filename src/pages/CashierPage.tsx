@@ -106,7 +106,7 @@ export function CashierPage() {
     };
 
     return (
-        <div className="flex h-screen overflow-hidden">
+        <div className="flex h-screen overflow-hidden" style={{ backgroundColor: '#F9F7F5' }}>
             {/* Left side - Menu Grid */}
             <div className="flex-1 flex flex-col overflow-hidden">
                 <MenuGrid
