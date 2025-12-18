@@ -51,10 +51,10 @@ export function CartPanel({
                         {items.map((item) => (
                             <div
                                 key={item.id}
-                                className="flex items-center gap-3 p-3 bg-slate-50 rounded-xl"
+                                className="flex items-center gap-4 p-4 bg-slate-50 rounded-xl"
                             >
                                 {/* Emoji */}
-                                <div className="w-14 h-14 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm">
+                                <div className="w-14 h-14 flex-shrink-0 rounded-full bg-white flex items-center justify-center text-3xl shadow-sm">
                                     {item.emoji || '🍽️'}
                                 </div>
 
@@ -72,7 +72,7 @@ export function CartPanel({
                                 </div>
 
                                 {/* Quantity Controls */}
-                                <div className="flex items-center gap-2">
+                                <div className="flex items-center gap-3 flex-shrink-0">
                                     <button
                                         onClick={() => onUpdateQuantity(item.id, -1)}
                                         className="qty-btn text-red-500"
@@ -91,7 +91,7 @@ export function CartPanel({
                                 </div>
 
                                 {/* Subtotal */}
-                                <div className="w-24 text-right">
+                                <div className="w-28 text-right flex-shrink-0">
                                     <p className="font-bold text-slate-800">
                                         Rp {(item.price * item.quantity).toLocaleString('id-ID')}
                                     </p>
@@ -100,7 +100,7 @@ export function CartPanel({
                                 {/* Remove Button */}
                                 <button
                                     onClick={() => onRemoveItem(item.id)}
-                                    className="p-2 text-slate-400 hover:text-red-500 transition-colors"
+                                    className="p-2 flex-shrink-0 text-slate-400 hover:text-red-500 transition-colors"
                                 >
                                     <Trash2 size={18} />
                                 </button>
