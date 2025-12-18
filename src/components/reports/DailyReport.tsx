@@ -75,7 +75,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                 </div>
 
                 {/* Vendor Owed */}
-                <div className="card bg-gradient-to-br from-amber-500 to-amber-600 text-white">
+                <div className="card text-white" style={{ background: 'linear-gradient(to bottom right, #E67E22, #D45113)' }}>
                     <p className="text-black font-bold text-lg">🤝 Uang Titipan</p>
                     <p className="text-3xl font-bold mt-2 text-black">{formatCurrency(vendorOwed)}</p>
                     <p className="text-black text-sm mt-1 font-semibold">Wajib setor vendor</p>
