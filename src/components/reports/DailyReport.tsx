@@ -57,7 +57,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
             {/* Main Stats Cards */}
             <div className="grid grid-cols-2 gap-4">
                 {/* Total Revenue */}
-                <div className="card bg-gradient-to-br from-green-500 to-green-600 text-white col-span-2">
+                <div className="card text-white col-span-2" style={{ background: 'linear-gradient(to bottom right, #E05D34, #C84A24)' }}>
                     <p className="text-black font-bold text-xl">💰 TOTAL UANG DI KASIR</p>
                     <p className="text-5xl font-bold mt-2 text-black">
                         {formatCurrency(report.total_revenue)}
