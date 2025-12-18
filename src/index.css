@@ -156,16 +156,16 @@ a,
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #FFF8F1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #E5D9D1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #D4C5BB;
 }
 
 /* Money button styling */
