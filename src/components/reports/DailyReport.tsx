@@ -68,7 +68,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                 </div>
 
                 {/* Warung Owned */}
-                <div className="card bg-gradient-to-br from-blue-500 to-blue-600 text-white">
+                <div className="card text-white" style={{ background: 'linear-gradient(to bottom right, #4A90E2, #357ABD)' }}>
                     <p className="text-black font-bold text-lg">🏠 Milik Warung</p>
                     <p className="text-3xl font-bold mt-2 text-black">{formatCurrency(warungOwned)}</p>
                     <p className="text-black text-sm mt-1 font-semibold">Bisa diambil</p>
