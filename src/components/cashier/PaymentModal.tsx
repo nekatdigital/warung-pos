@@ -150,11 +150,12 @@ export function PaymentModal({
                     {cashReceived > 0 && (
                         <div
                             className={`text-center p-3 sm:p-4 rounded-xl ${isValid
-                                ? 'bg-green-100 border-2 border-green-300'
-                                : 'bg-red-100 border-2 border-red-300'
+                                ? 'border-2'
+                                : 'border-2'
                                 }`}
+                            style={isValid ? { backgroundColor: '#E8F8F5', borderColor: '#27AE60' } : { backgroundColor: '#FADBD8', borderColor: '#C0392B' }}
                         >
-                            <p className={`text-base sm:text-lg ${isValid ? 'text-green-700' : 'text-red-700'}`}>
+                            <p className={`text-base sm:text-lg`} style={isValid ? { color: '#27AE60' } : { color: '#C0392B' }}>
                                 {isValid ? 'Kembalian' : 'Kurang'}
                             </p>
                             <p
