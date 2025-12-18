@@ -87,8 +87,8 @@ export function CartPanel({
                                     <div className="flex items-center gap-2 flex-shrink-0">
                                         <button
                                             onClick={() => onUpdateQuantity(item.id, -1)}
-                                            className="qty-btn text-red-500"
-                                        >
+                                        className="qty-btn" style={{ color: '#C0392B' }}
+                                    >
                                             <Minus size={20} />
                                         </button>
                                         <span className="w-8 text-center font-bold text-lg">
