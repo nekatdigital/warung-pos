@@ -88,7 +88,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                     📋 Rincian Penjualan
                 </h2>
                 <div className="space-y-3">
-                    <div className="flex justify-between items-center p-3 bg-blue-50 rounded-xl">
+                    <div className="flex justify-between items-center p-3 rounded-xl" style={{ backgroundColor: '#EBF5FB' }}>
                         <div className="flex items-center gap-3">
                             <span className="text-2xl">🍳</span>
                             <div>
@@ -96,7 +96,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                                 <p className="text-sm text-slate-500">Nasi Goreng, Es Teh, dll</p>
                             </div>
                         </div>
-                        <span className="text-xl font-bold text-blue-600">
+                        <span className="text-xl font-bold" style={{ color: '#4A90E2' }}>
                             {formatCurrency(report.own_production_total)}
                         </span>
                     </div>
