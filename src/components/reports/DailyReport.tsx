@@ -131,8 +131,8 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
 
             {/* Vendor Payouts */}
             {report.vendor_payouts.length > 0 && (
-                <div className="card border-2 border-amber-300 bg-amber-50">
-                    <h2 className="text-xl font-bold text-amber-800 mb-4 flex items-center gap-2">
+                <div className="card border-2" style={{ borderColor: '#E5C4A0', backgroundColor: '#FCE8D0' }}>
+                    <h2 className="text-xl font-bold mb-4 flex items-center gap-2" style={{ color: '#C0392B' }}>
                         ⚠️ Wajib Setor ke Vendor
                     </h2>
                     <div className="space-y-3">
