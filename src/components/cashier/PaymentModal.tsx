@@ -76,7 +76,7 @@ export function PaymentModal({
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
             <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg max-h-[90vh] flex flex-col overflow-hidden">
                 {/* Header */}
-                <div className="flex-shrink-0 flex items-center justify-between p-4 border-b bg-green-600 text-white">
+                <div className="flex-shrink-0 flex items-center justify-between p-4 border-b text-white" style={{ backgroundColor: '#E05D34' }}>
                     <h2 className="text-xl sm:text-2xl font-bold">💵 Pembayaran</h2>
                     <button
                         onClick={onClose}
