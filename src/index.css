@@ -2,17 +2,17 @@
 
 /* Custom CSS Variables for Warung POS */
 :root {
-  /* Colors */
-  --color-primary: #22c55e;
-  --color-primary-hover: #16a34a;
-  --color-danger: #ef4444;
-  --color-danger-hover: #dc2626;
-  --color-warning: #f59e0b;
-  --color-warning-light: #fef3c7;
-  --color-bg: #f8fafc;
-  --color-card: #ffffff;
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
+  /* Colors - Modern Warmth Palette */
+  --color-primary: #E05D34;
+  --color-primary-hover: #C84A24;
+  --color-danger: #C0392B;
+  --color-danger-hover: #A03022;
+  --color-warning: #E67E22;
+  --color-warning-light: #FCE8D0;
+  --color-bg: #F9F7F5;
+  --color-card: #FFFFFF;
+  --color-text: #2D3748;
+  --color-text-muted: #5A6C7D;
   
   /* Touch-friendly sizing */
   --touch-min: 48px;
