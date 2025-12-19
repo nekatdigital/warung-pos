@@ -119,13 +119,15 @@ function SettingsPage() {
 function App() {
   return (
     <BrowserRouter>
-      <div className="pb-20 md:pb-0 md:pt-16">
+      <div className="h-screen flex flex-col">
         <Navigation />
-        <Routes>
-          <Route path="/" element={<TransactionPage />} />
-          <Route path="/laporan" element={<ReportPage />} />
-          <Route path="/pengaturan" element={<SettingsPage />} />
-        </Routes>
+        <div className="flex-1 overflow-hidden pt-16 md:pt-0">
+          <Routes>
+            <Route path="/" element={<TransactionPage />} />
+            <Route path="/laporan" element={<ReportPage />} />
+            <Route path="/pengaturan" element={<SettingsPage />} />
+          </Routes>
+        </div>
       </div>
     </BrowserRouter>
   );
