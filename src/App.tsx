@@ -119,8 +119,8 @@ function SettingsPage() {
 function App() {
   return (
     <BrowserRouter>
-      <div className="min-h-screen pb-20 md:pb-0 md:pt-16">
-        <Navigation />
+      <Navigation />
+      <div className="pb-20 md:pb-0 md:pt-16 min-h-screen">
         <Routes>
           <Route path="/" element={<TransactionPage />} />
           <Route path="/laporan" element={<ReportPage />} />
