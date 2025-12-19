@@ -124,10 +124,7 @@ export function MobileLayout({
                   </p>
                 )}
                 {product.product_type === 'CONSIGNMENT' && product.vendor_name && (
-                  <span
-                    className="inline-block text-xs font-bold px-2 py-1 rounded-full mt-2"
-                    style={{ backgroundColor: '#FCE8D0', color: '#92400e' }}
-                  >
+                  <span className="badge-consignment inline-block mt-2">
                     Dari {product.vendor_name}
                   </span>
                 )}
