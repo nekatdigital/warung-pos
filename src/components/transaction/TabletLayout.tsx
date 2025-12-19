@@ -167,8 +167,7 @@ export function TabletLayout({
             cart.map((item) => (
               <div
                 key={item.id}
-                className="p-3 rounded-lg border border-slate-200 space-y-2"
-                style={{ backgroundColor: '#FFF8F1' }}
+                className="p-3 rounded-lg border border-slate-200 space-y-2 bg-card-item"
               >
                 <div className="flex items-start gap-3">
                   <span className="text-3xl flex-shrink-0">
