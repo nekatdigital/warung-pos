@@ -33,13 +33,34 @@ html {
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', system-ui, sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
   margin: 0;
   padding: 0;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+/* Background utilities */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-page {
+  background-color: var(--color-bg);
+}
+
+.bg-page-zebra {
+  background-color: var(--color-bg-zebra);
+}
+
+.bg-card-item {
+  background-color: var(--color-card-light);
 }
 
 /* Ensure touch targets are at least 48x48px */
