@@ -118,10 +118,7 @@ export function TabletLayout({
 
                   {/* Product Type Badge */}
                   {product.product_type === 'CONSIGNMENT' && product.vendor_name && (
-                    <span
-                      className="text-xs font-bold px-2 py-1 rounded-full"
-                      style={{ backgroundColor: '#FCE8D0', color: '#92400e' }}
-                    >
+                    <span className="badge-consignment">
                       {product.vendor_name}
                     </span>
                   )}
