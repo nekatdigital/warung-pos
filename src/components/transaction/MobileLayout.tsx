@@ -57,10 +57,7 @@ export function MobileLayout({
             <h1 className="text-2xl font-bold text-slate-800">🍛 Warung</h1>
             <p className="text-xs text-slate-500">Sistem Pesanan</p>
           </div>
-          <div
-            className="text-right px-3 py-2 rounded-lg"
-            style={{ backgroundColor: '#F4F2F0' }}
-          >
+          <div className="text-right px-3 py-2 rounded-lg bg-page-zebra">
             <p className="text-xs text-slate-500">Total Pesanan</p>
             <p className="font-bold text-lg text-slate-800">{itemCount} item</p>
           </div>
