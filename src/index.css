@@ -5,15 +5,20 @@
   /* Colors - Modern Warmth Palette */
   --color-primary: #E05D34;
   --color-primary-hover: #C84A24;
+  --color-secondary: #2D3748;
   --color-danger: #C0392B;
   --color-danger-hover: #A03022;
   --color-warning: #E67E22;
   --color-warning-light: #FCE8D0;
   --color-bg: #F9F7F5;
+  --color-bg-zebra: #F4F2F0;
   --color-card: #FFFFFF;
+  --color-card-light: #FFF8F1;
   --color-text: #2D3748;
   --color-text-muted: #5A6C7D;
-  
+  --color-border: #E5D9D1;
+  --color-border-light: #D4C5BB;
+
   /* Touch-friendly sizing */
   --touch-min: 48px;
   --font-large: 18px;
