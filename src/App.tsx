@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import { CashierPage } from './pages/CashierPage';
+import { TransactionPage } from './pages/TransactionPage';
 import { ReportPage } from './pages/ReportPage';
 import { ShoppingCart, BarChart3, Settings } from 'lucide-react';
 
@@ -122,7 +122,7 @@ function App() {
       <div className="pb-20 md:pb-0 md:pt-16">
         <Navigation />
         <Routes>
-          <Route path="/" element={<CashierPage />} />
+          <Route path="/" element={<TransactionPage />} />
           <Route path="/laporan" element={<ReportPage />} />
           <Route path="/pengaturan" element={<SettingsPage />} />
         </Routes>
