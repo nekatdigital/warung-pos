@@ -49,7 +49,7 @@ export function MobileLayout({
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden bg-page">
       {/* Top Header */}
       <header className="bg-white border-b border-slate-200 shadow-md p-4 space-y-3">
         <div className="flex items-center justify-between">
