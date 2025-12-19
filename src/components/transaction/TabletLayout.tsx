@@ -45,7 +45,7 @@ export function TabletLayout({
   };
 
   return (
-    <div className="flex h-full" style={{ backgroundColor: '#F9F7F5' }}>
+    <div className="flex h-full bg-page">
       {/* Left Sidebar - Collapsed Categories (80px) */}
       <aside className="w-20 border-r border-slate-200 bg-white shadow-lg flex flex-col items-center py-4 space-y-2 overflow-y-auto">
         <button
