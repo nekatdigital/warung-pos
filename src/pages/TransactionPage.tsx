@@ -109,7 +109,7 @@ export function TransactionPage() {
   return (
     <>
       {/* Desktop Layout - Visible on lg and above (1024px+) */}
-      <div className="hidden lg:block h-screen overflow-hidden">
+      <div className="hidden lg:block h-full overflow-hidden">
         <DesktopLayout
           products={products}
           categories={categories}
@@ -126,7 +126,7 @@ export function TransactionPage() {
       </div>
 
       {/* Tablet Layout - Visible on md to lg (768px - 1023px) */}
-      <div className="hidden md:block lg:hidden h-screen overflow-hidden">
+      <div className="hidden md:block lg:hidden h-full overflow-hidden">
         <TabletLayout
           products={products}
           categories={categories}
@@ -143,7 +143,7 @@ export function TransactionPage() {
       </div>
 
       {/* Mobile Layout - Visible on max-md (below 768px) */}
-      <div className="md:hidden h-screen overflow-hidden flex flex-col">
+      <div className="md:hidden h-full overflow-hidden flex flex-col">
         <MobileLayout
           products={products}
           categories={categories}
