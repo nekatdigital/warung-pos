@@ -35,7 +35,7 @@ export function DesktopLayout({
   const itemCount = cart.reduce((sum, item) => sum + item.quantity, 0);
 
   return (
-    <div className="flex h-full" style={{ backgroundColor: '#F9F7F5' }}>
+    <div className="flex h-full bg-page">
       {/* Left Sidebar - Categories (Fixed 240px) */}
       <aside className="w-60 border-r border-slate-200 bg-white shadow-lg flex flex-col p-6 space-y-4">
         <div>
@@ -204,8 +204,7 @@ export function DesktopLayout({
             cart.map((item) => (
               <div
                 key={item.id}
-                className="p-4 rounded-xl border border-slate-200 space-y-3"
-                style={{ backgroundColor: '#FFF8F1' }}
+                className="p-4 rounded-xl border border-slate-200 space-y-3 bg-card-item"
               >
                 <div className="flex items-start gap-3">
                   <span className="text-4xl flex-shrink-0">

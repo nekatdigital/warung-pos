@@ -45,7 +45,7 @@ export function TabletLayout({
   };
 
   return (
-    <div className="flex h-full" style={{ backgroundColor: '#F9F7F5' }}>
+    <div className="flex h-full bg-page">
       {/* Left Sidebar - Collapsed Categories (80px) */}
       <aside className="w-20 border-r border-slate-200 bg-white shadow-lg flex flex-col items-center py-4 space-y-2 overflow-y-auto">
         <button
@@ -118,10 +118,7 @@ export function TabletLayout({
 
                   {/* Product Type Badge */}
                   {product.product_type === 'CONSIGNMENT' && product.vendor_name && (
-                    <span
-                      className="text-xs font-bold px-2 py-1 rounded-full"
-                      style={{ backgroundColor: '#FCE8D0', color: '#92400e' }}
-                    >
+                    <span className="badge-consignment">
                       {product.vendor_name}
                     </span>
                   )}
@@ -167,8 +164,7 @@ export function TabletLayout({
             cart.map((item) => (
               <div
                 key={item.id}
-                className="p-3 rounded-lg border border-slate-200 space-y-2"
-                style={{ backgroundColor: '#FFF8F1' }}
+                className="p-3 rounded-lg border border-slate-200 space-y-2 bg-card-item"
               >
                 <div className="flex items-start gap-3">
                   <span className="text-3xl flex-shrink-0">

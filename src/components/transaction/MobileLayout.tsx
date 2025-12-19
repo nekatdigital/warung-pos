@@ -49,7 +49,7 @@ export function MobileLayout({
   };
 
   return (
-    <div className="h-screen flex flex-col overflow-hidden">
+    <div className="h-screen flex flex-col overflow-hidden bg-page">
       {/* Top Header */}
       <header className="bg-white border-b border-slate-200 shadow-md p-4 space-y-3">
         <div className="flex items-center justify-between">
@@ -57,10 +57,7 @@ export function MobileLayout({
             <h1 className="text-2xl font-bold text-slate-800">🍛 Warung</h1>
             <p className="text-xs text-slate-500">Sistem Pesanan</p>
           </div>
-          <div
-            className="text-right px-3 py-2 rounded-lg"
-            style={{ backgroundColor: '#F4F2F0' }}
-          >
+          <div className="text-right px-3 py-2 rounded-lg bg-page-zebra">
             <p className="text-xs text-slate-500">Total Pesanan</p>
             <p className="font-bold text-lg text-slate-800">{itemCount} item</p>
           </div>
@@ -127,10 +124,7 @@ export function MobileLayout({
                   </p>
                 )}
                 {product.product_type === 'CONSIGNMENT' && product.vendor_name && (
-                  <span
-                    className="inline-block text-xs font-bold px-2 py-1 rounded-full mt-2"
-                    style={{ backgroundColor: '#FCE8D0', color: '#92400e' }}
-                  >
+                  <span className="badge-consignment inline-block mt-2">
                     Dari {product.vendor_name}
                   </span>
                 )}
@@ -223,8 +217,7 @@ export function MobileLayout({
                   {cart.map((item) => (
                     <div
                       key={item.id}
-                      className="p-3 rounded-lg border border-slate-200 space-y-2"
-                      style={{ backgroundColor: '#FFF8F1' }}
+                      className="p-3 rounded-lg border border-slate-200 space-y-2 bg-card-item"
                     >
                       <div className="flex items-start gap-3">
                         <span className="text-3xl flex-shrink-0">
