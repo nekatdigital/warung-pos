@@ -139,14 +139,19 @@ function SettingsPage() {
 }
 
 function App() {
+  const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
+
   return (
     <BrowserRouter>
-      <Navigation />
+      <Navigation
+        itemCount={0}
+        onCartClick={() => setIsCartSheetOpen(true)}
+      />
       {/* Container utama dengan padding agar tidak tertutup Navbar */}
       <div className="pb-20 md:pb-0 md:pt-16 min-h-screen">
         <Routes>
           {/* Route '/' menggunakan TransactionPage yang baru (Adaptive Layout) */}
-          <Route path="/" element={<TransactionPage />} />
+          <Route path="/" element={<TransactionPage isCartSheetOpen={isCartSheetOpen} onCartSheetOpenChange={setIsCartSheetOpen} />} />
           <Route path="/laporan" element={<ReportPage />} />
           <Route path="/pengaturan" element={<SettingsPage />} />
         </Routes>
