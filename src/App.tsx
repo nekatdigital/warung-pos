@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, NavLink, useLocation } from 'react-router-dom';
+import { useState } from 'react';
 import { TransactionPage } from './pages/TransactionPage';
 import { ReportPage } from './pages/ReportPage';
 import { ShoppingCart, BarChart3, Settings } from 'lucide-react';
@@ -6,7 +7,8 @@ import { ShoppingCart, BarChart3, Settings } from 'lucide-react';
 // Import POS styles
 import './components/pos/pos.css';
 
-function Navigation() {
+function Navigation({ itemCount, onCartClick }: { itemCount: number; onCartClick: () => void }) {
+  const location = useLocation();
   return (
     <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-lg z-40 md:top-0 md:bottom-auto md:border-t-0 md:border-b">
       <div className="max-w-screen-2xl mx-auto px-4">
