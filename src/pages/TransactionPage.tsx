@@ -6,7 +6,12 @@ import { PaymentModal } from '../components/cashier/PaymentModal';
 import { DEMO_PRODUCTS, DEMO_CATEGORIES } from '../services/supabase';
 import type { Product, CartItem } from '../types';
 
-export function TransactionPage() {
+interface TransactionPageProps {
+  isCartSheetOpen?: boolean;
+  onCartSheetOpenChange?: (open: boolean) => void;
+}
+
+export function TransactionPage({ isCartSheetOpen = false, onCartSheetOpenChange = () => {} }: TransactionPageProps) {
   const [cart, setCart] = useState<CartItem[]>([]);
   const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
   const [isPaymentOpen, setIsPaymentOpen] = useState(false);
