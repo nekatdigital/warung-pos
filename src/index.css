@@ -13,7 +13,7 @@
   --color-card: #ffffff;
   --color-text: #1e293b;
   --color-text-muted: #64748b;
-  
+
   /* Touch-friendly sizing */
   --touch-min: 48px;
   --font-large: 18px;
@@ -38,8 +38,8 @@ body {
 }
 
 /* Ensure touch targets are at least 48x48px */
-button, 
-a, 
+button,
+a,
 .touchable {
   min-height: var(--touch-min);
   min-width: var(--touch-min);
@@ -239,9 +239,17 @@ a,
 
 /* Animation for adding items */
 @keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .pop-animation {

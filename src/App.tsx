@@ -1,7 +1,11 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import { CashierPage } from './pages/CashierPage';
+import { ResponsivePOS } from './components/pos/ResponsivePOS';
 import { ReportPage } from './pages/ReportPage';
 import { ShoppingCart, BarChart3, Settings } from 'lucide-react';
+import { DEMO_PRODUCTS, DEMO_CATEGORIES } from './services/supabase';
+
+// Import POS styles
+import './components/pos/pos.css';
 
 function Navigation() {
   return (
@@ -31,6 +35,19 @@ function Navigation() {
               >
                 <ShoppingCart size={24} />
                 <span className="text-sm md:text-base">Kasir</span>
+              </NavLink>
+
+              <NavLink
+                to="/kasir-baru"
+                className={({ isActive }) =>
+                  `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
+                    ? 'bg-orange-100 text-orange-700'
+                    : 'text-slate-600 hover:bg-slate-100'
+                  }`
+                }
+              >
+                <span className="text-xl">✨</span>
+                <span className="text-sm md:text-base">Kasir Baru</span>
               </NavLink>
 
               <NavLink
@@ -116,13 +133,31 @@ function SettingsPage() {
   );
 }
 
+/**
+ * New Elderly-Friendly POS Page
+ * Uses ResponsivePOS component that switches between Mobile and Tablet layouts
+ */
+function NewCashierPage() {
+  return (
+    <ResponsivePOS
+      products={DEMO_PRODUCTS}
+      categories={DEMO_CATEGORIES}
+      tableNumber="Meja 1"
+    />
+  );
+}
+
 function App() {
+  // Import old CashierPage dynamically for comparison
+  const CashierPage = () => import('./pages/CashierPage').then(m => <m.CashierPage />);
+
   return (
     <BrowserRouter>
       <div className="pb-20 md:pb-0 md:pt-16">
         <Navigation />
         <Routes>
-          <Route path="/" element={<CashierPage />} />
+          <Route path="/" element={<OldCashierPage />} />
+          <Route path="/kasir-baru" element={<NewCashierPage />} />
           <Route path="/laporan" element={<ReportPage />} />
           <Route path="/pengaturan" element={<SettingsPage />} />
         </Routes>
@@ -130,5 +165,8 @@ function App() {
     </BrowserRouter>
   );
 }
+
+// Keep old cashier page for comparison
+import { CashierPage as OldCashierPage } from './pages/CashierPage';
 
 export default App;
