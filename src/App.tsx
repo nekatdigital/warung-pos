@@ -148,9 +148,6 @@ function NewCashierPage() {
 }
 
 function App() {
-  // Import old CashierPage dynamically for comparison
-  const CashierPage = () => import('./pages/CashierPage').then(m => <m.CashierPage />);
-
   return (
     <BrowserRouter>
       <div className="pb-20 md:pb-0 md:pt-16">
