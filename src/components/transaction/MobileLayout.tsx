@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ShoppingCart, Home, Settings, Trash2, Plus, Minus, X } from 'lucide-react';
+import { Trash2, Plus, Minus, X } from 'lucide-react';
 import type { Product, CartItem } from '../../types';
 
 interface MobileLayoutProps {
