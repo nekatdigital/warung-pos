@@ -142,7 +142,7 @@ export function MobileLayout({
       </main>
 
       {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-2xl flex items-center justify-around h-20">
+      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-2xl flex items-center justify-around h-20 max-lg:min-h-[200px]">
         <button
           onClick={() => setActiveNav('home')}
           className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
@@ -160,7 +160,7 @@ export function MobileLayout({
             setActiveNav('cart');
             setIsCartSheetOpen(true);
           }}
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors relative ${
+          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors relative max-lg:pt-[50px] ${
             activeNav === 'cart' || itemCount > 0
               ? 'bg-orange-100 text-orange-700'
               : 'text-slate-600'
