@@ -35,7 +35,13 @@ export function MobileLayout({
 }: MobileLayoutProps) {
   const [localIsCartSheetOpen, setLocalIsCartSheetOpen] = useState(false);
   const isCartSheetOpen = propOnCartSheetOpenChange ? propIsCartSheetOpen : localIsCartSheetOpen;
-  const setIsCartSheetOpen = propOnCartSheetOpenChange || setLocalIsCartSheetOpen;
+  const setIsCartSheetOpen = (open: boolean) => {
+    if (propOnCartSheetOpenChange) {
+      propOnCartSheetOpenChange(open);
+    } else {
+      setLocalIsCartSheetOpen(open);
+    }
+  };
 
   const filteredProducts = selectedCategory
     ? products.filter((p) => p.category_id === selectedCategory)
