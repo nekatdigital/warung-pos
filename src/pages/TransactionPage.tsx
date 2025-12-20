@@ -161,6 +161,8 @@ export function TransactionPage({ isCartSheetOpen = false, onCartSheetOpenChange
           onClearCart={clearCart}
           onCheckout={handleCheckout}
           total={total}
+          isCartSheetOpen={isCartSheetOpen}
+          onCartSheetOpenChange={onCartSheetOpenChange}
         />
       </div>
 
