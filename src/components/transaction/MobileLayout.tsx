@@ -30,8 +30,12 @@ export function MobileLayout({
   onClearCart,
   onCheckout,
   total,
+  isCartSheetOpen: propIsCartSheetOpen = false,
+  onCartSheetOpenChange: propOnCartSheetOpenChange,
 }: MobileLayoutProps) {
-  const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
+  const [localIsCartSheetOpen, setLocalIsCartSheetOpen] = useState(false);
+  const isCartSheetOpen = propOnCartSheetOpenChange ? propIsCartSheetOpen : localIsCartSheetOpen;
+  const setIsCartSheetOpen = propOnCartSheetOpenChange || setLocalIsCartSheetOpen;
 
   const filteredProducts = selectedCategory
     ? products.filter((p) => p.category_id === selectedCategory)
