@@ -2,17 +2,22 @@
 
 /* Custom CSS Variables for Warung POS */
 :root {
-  /* Colors */
-  --color-primary: #22c55e;
-  --color-primary-hover: #16a34a;
-  --color-danger: #ef4444;
-  --color-danger-hover: #dc2626;
-  --color-warning: #f59e0b;
-  --color-warning-light: #fef3c7;
-  --color-bg: #f8fafc;
-  --color-card: #ffffff;
-  --color-text: #1e293b;
-  --color-text-muted: #64748b;
+  /* Colors - Modern Warmth Palette */
+  --color-primary: #E05D34;
+  --color-primary-hover: #C84A24;
+  --color-secondary: #2D3748;
+  --color-danger: #C0392B;
+  --color-danger-hover: #A03022;
+  --color-warning: #E67E22;
+  --color-warning-light: #FCE8D0;
+  --color-bg: #F9F7F5;
+  --color-bg-zebra: #F4F2F0;
+  --color-card: #FFFFFF;
+  --color-card-light: #FFF8F1;
+  --color-text: #2D3748;
+  --color-text-muted: #5A6C7D;
+  --color-border: #E5D9D1;
+  --color-border-light: #D4C5BB;
 
   /* Touch-friendly sizing */
   --touch-min: 48px;
@@ -28,13 +33,34 @@ html {
 }
 
 body {
-  font-family: 'Inter', 'Segoe UI', system-ui, sans-serif;
+  font-family: 'Inter', 'Roboto', 'Segoe UI', system-ui, sans-serif;
   background-color: var(--color-bg);
   color: var(--color-text);
   margin: 0;
   padding: 0;
   min-height: 100vh;
   overflow-x: hidden;
+}
+
+/* Background utilities */
+.bg-primary {
+  background-color: var(--color-primary);
+}
+
+.bg-secondary {
+  background-color: var(--color-secondary);
+}
+
+.bg-page {
+  background-color: var(--color-bg);
+}
+
+.bg-page-zebra {
+  background-color: var(--color-bg-zebra);
+}
+
+.bg-card-item {
+  background-color: var(--color-card-light);
 }
 
 /* Ensure touch targets are at least 48x48px */
@@ -98,7 +124,7 @@ a,
 }
 
 .btn-secondary {
-  background-color: #e2e8f0;
+  background-color: #F0E9E2;
   color: var(--color-text);
   font-weight: 600;
   font-size: var(--font-large);
@@ -110,7 +136,7 @@ a,
 }
 
 .btn-secondary:hover {
-  background-color: #cbd5e1;
+  background-color: #E5D9D1;
 }
 
 .btn-secondary:active {
@@ -125,6 +151,49 @@ a,
   padding: 4px 8px;
   border-radius: 9999px;
   font-weight: 600;
+}
+
+/* Layout Sidebar Styles */
+.layout-sidebar-full {
+  width: 240px;
+  border-right: 1px solid #e2e8f0;
+  background-color: var(--color-card);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  padding: 1.5rem;
+}
+
+.layout-sidebar-collapsed {
+  width: 80px;
+  border-right: 1px solid #e2e8f0;
+  background-color: var(--color-card);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  gap: 0.5rem;
+  overflow-y: auto;
+}
+
+/* Layout Main Content */
+.layout-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Layout Cart Panel */
+.layout-cart-panel {
+  width: 384px;
+  border-left: 1px solid #e2e8f0;
+  background-color: var(--color-card);
+  box-shadow: -4px 0 6px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
 }
 
 /* Menu item card */
@@ -150,28 +219,69 @@ a,
   border-color: var(--color-primary);
 }
 
+/* Sidebar Category Button */
+.sidebar-category-btn {
+  width: 64px;
+  height: 64px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  border: none;
+  background-color: transparent;
+}
+
+.sidebar-category-btn:hover {
+  background-color: #f1f5f9;
+}
+
+.sidebar-category-btn.active {
+  background-color: #fed7aa;
+  color: #ea580c;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Cart item container */
+.cart-item-card {
+  padding: 1rem;
+  border-radius: 12px;
+  border: 1px solid #e2e8f0;
+  background-color: var(--color-card-light);
+  space: 0.75rem;
+}
+
+/* Header section style */
+.header-section {
+  padding: 1.5rem;
+  border-bottom: 1px solid #e2e8f0;
+  background-color: var(--color-card);
+}
+
 /* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #f1f5f9;
+  background: #FFF8F1;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
+  background: #E5D9D1;
   border-radius: 4px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+  background: #D4C5BB;
 }
 
 /* Money button styling */
 .money-btn {
-  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  border: 2px solid #cbd5e1;
+  background: linear-gradient(135deg, #FFF8F1 0%, #F0E9E2 100%);
+  border: 2px solid #E5D9D1;
   border-radius: 12px;
   padding: 1rem;
   font-size: var(--font-large);
@@ -181,8 +291,8 @@ a,
 }
 
 .money-btn:hover {
-  background: linear-gradient(135deg, #e2e8f0 0%, #cbd5e1 100%);
-  border-color: #94a3b8;
+  background: linear-gradient(135deg, #F0E9E2 0%, #E5D9D1 100%);
+  border-color: #D4C5BB;
 }
 
 .money-btn:active {
@@ -217,7 +327,7 @@ a,
   width: 48px;
   height: 48px;
   border-radius: 50%;
-  border: 2px solid #e2e8f0;
+  border: 2px solid #E5D9D1;
   background: white;
   font-size: 24px;
   font-weight: bold;
@@ -229,8 +339,8 @@ a,
 }
 
 .qty-btn:hover {
-  background: #f1f5f9;
-  border-color: #cbd5e1;
+  background: #FFF8F1;
+  border-color: #D4C5BB;
 }
 
 .qty-btn:active {

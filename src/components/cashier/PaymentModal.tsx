@@ -73,115 +73,118 @@ export function PaymentModal({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
-            <div className="bg-white rounded-2xl shadow-2xl w-full max-w-lg mx-4 overflow-hidden">
-                {/* Header */}
-                <div className="flex items-center justify-between p-4 border-b bg-green-600 text-white">
-                    <h2 className="text-2xl font-bold">💵 Pembayaran</h2>
-                    <button
-                        onClick={onClose}
-                        className="p-2 hover:bg-white/20 rounded-full transition-colors"
-                    >
-                        <X size={24} />
-                    </button>
+        <div className="fixed inset-0 z-50 bg-white flex flex-col overflow-hidden">
+            {/* Header */}
+            <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-slate-200 bg-white" style={{ backgroundColor: '#FFF' }}>
+                <button
+                    onClick={onClose}
+                    className="flex items-center gap-2 text-lg font-bold text-slate-700 hover:text-slate-900 transition-colors"
+                >
+                    <X size={28} />
+                    <span>Kembali</span>
+                </button>
+                <h2 className="text-3xl font-bold text-slate-800">💵 Pembayaran</h2>
+                <div className="w-20"></div>
+            </div>
+
+            {/* Content - Scrollable */}
+            <div className="flex-1 overflow-y-auto px-6 py-8 space-y-8">
+                {/* Total Amount - Extra Large Display */}
+                <div className="text-center space-y-3">
+                    <p className="text-lg text-slate-600 font-medium">Total Bayar</p>
+                    <p className="text-7xl font-bold text-slate-800 tracking-tight">
+                        Rp {total.toLocaleString('id-ID')}
+                    </p>
                 </div>
 
-                {/* Content */}
-                <div className="p-6 space-y-6">
-                    {/* Order Summary */}
-                    <div className="bg-slate-50 rounded-xl p-4">
-                        <p className="text-slate-500 text-sm mb-2">Ringkasan Pesanan</p>
-                        <div className="max-h-32 overflow-y-auto space-y-1">
-                            {items.map((item) => (
-                                <div key={item.id} className="flex justify-between text-sm">
-                                    <span>
-                                        {item.quantity}x {item.name}
-                                    </span>
-                                    <span className="font-medium">
-                                        Rp {(item.price * item.quantity).toLocaleString('id-ID')}
-                                    </span>
-                                </div>
-                            ))}
-                        </div>
-                    </div>
-
-                    {/* Total Display */}
-                    <div className="text-center">
-                        <p className="text-slate-500 text-lg">Total Bayar</p>
-                        <p className="text-4xl font-bold text-slate-800">
-                            Rp {total.toLocaleString('id-ID')}
-                        </p>
-                    </div>
-
-                    {/* Cash Input */}
-                    <div>
-                        <label className="block text-slate-600 font-medium mb-2">
-                            Uang Diterima
-                        </label>
-                        <input
-                            type="text"
-                            value={`Rp ${parseInt(inputValue || '0').toLocaleString('id-ID')}`}
-                            onChange={handleInputChange}
-                            className="w-full text-3xl font-bold text-center p-4 border-2 border-slate-300 rounded-xl focus:border-green-500 focus:outline-none"
-                        />
-                    </div>
-
-                    {/* Quick Cash Buttons */}
-                    <div className="grid grid-cols-2 gap-3">
-                        <button
-                            onClick={handleExactCash}
-                            className="money-btn bg-green-100 border-green-300 text-green-800"
-                        >
-                            🎯 Uang Pas
-                        </button>
-                        {QUICK_CASH_OPTIONS.map((option) => (
-                            <button
-                                key={option.value}
-                                onClick={() => handleQuickCash(option.value)}
-                                className="money-btn"
-                                disabled={option.value < total}
-                            >
-                                {option.label}
-                            </button>
+                {/* Order Summary */}
+                <div className="bg-slate-50 rounded-2xl p-6 space-y-3">
+                    <p className="text-slate-700 text-lg font-semibold">Ringkasan Pesanan</p>
+                    <div className="max-h-40 overflow-y-auto space-y-2">
+                        {items.map((item) => (
+                            <div key={item.id} className="flex justify-between text-slate-700 text-base">
+                                <span className="font-medium">
+                                    {item.quantity}x {item.name}
+                                </span>
+                                <span className="font-semibold">
+                                    Rp {(item.price * item.quantity).toLocaleString('id-ID')}
+                                </span>
+                            </div>
                         ))}
                     </div>
-
-                    {/* Change Display */}
-                    {cashReceived > 0 && (
-                        <div
-                            className={`text-center p-4 rounded-xl ${isValid
-                                ? 'bg-green-100 border-2 border-green-300'
-                                : 'bg-red-100 border-2 border-red-300'
-                                }`}
-                        >
-                            <p className={`text-lg ${isValid ? 'text-green-700' : 'text-red-700'}`}>
-                                {isValid ? 'Kembalian' : 'Kurang'}
-                            </p>
-                            <p
-                                className={`text-3xl font-bold ${isValid ? 'text-green-800' : 'text-red-800'
-                                    }`}
-                            >
-                                Rp {Math.abs(change).toLocaleString('id-ID')}
-                            </p>
-                        </div>
-                    )}
                 </div>
 
-                {/* Footer */}
-                <div className="p-4 border-t bg-slate-50 flex gap-3">
-                    <button onClick={onClose} className="flex-1 btn-secondary">
-                        Batal
-                    </button>
+                {/* Cash Input */}
+                <div className="space-y-3">
+                    <label className="block text-slate-700 text-lg font-semibold">
+                        Uang Diterima
+                    </label>
+                    <input
+                        type="text"
+                        value={`Rp ${parseInt(inputValue || '0').toLocaleString('id-ID')}`}
+                        onChange={handleInputChange}
+                        className="w-full text-5xl font-bold text-center p-6 border-3 border-slate-300 rounded-2xl focus:border-green-500 focus:outline-none focus:ring-2 focus:ring-green-200"
+                        autoFocus
+                    />
+                </div>
+
+                {/* Quick Cash Buttons */}
+                <div className="grid grid-cols-2 gap-4">
                     <button
-                        onClick={handleConfirm}
-                        disabled={!isValid}
-                        className={`flex-1 btn-primary flex items-center justify-center gap-2 ${!isValid ? 'opacity-50 cursor-not-allowed' : ''
-                            }`}
+                        onClick={handleExactCash}
+                        className="py-5 px-6 rounded-xl font-bold text-lg transition-all active:scale-95"
+                        style={{ backgroundColor: '#FCE8D0', color: '#E05D34' }}
                     >
-                        <Check size={24} />
-                        SELESAI
+                        🎯 Uang Pas
                     </button>
+                    {QUICK_CASH_OPTIONS.map((option) => (
+                        <button
+                            key={option.value}
+                            onClick={() => handleQuickCash(option.value)}
+                            className="py-5 px-6 rounded-xl font-bold text-lg transition-all active:scale-95 disabled:opacity-40 disabled:cursor-not-allowed bg-slate-100 text-slate-700 hover:bg-slate-200"
+                            disabled={option.value < total}
+                        >
+                            {option.label}
+                        </button>
+                    ))}
                 </div>
+
+                {/* Change Display */}
+                {cashReceived > 0 && (
+                    <div
+                        className="text-center p-6 rounded-2xl border-3 space-y-2"
+                        style={isValid ? { backgroundColor: '#E8F8F5', borderColor: '#27AE60' } : { backgroundColor: '#FADBD8', borderColor: '#C0392B' }}
+                    >
+                        <p className="text-lg font-semibold" style={isValid ? { color: '#27AE60' } : { color: '#C0392B' }}>
+                            {isValid ? '✓ Kembalian' : '✗ Kurang'}
+                        </p>
+                        <p
+                            className="text-5xl font-bold"
+                            style={isValid ? { color: '#27AE60' } : { color: '#C0392B' }}
+                        >
+                            Rp {Math.abs(change).toLocaleString('id-ID')}
+                        </p>
+                    </div>
+                )}
+            </div>
+
+            {/* Footer - Full Width Button */}
+            <div className="flex-shrink-0 p-6 border-t border-slate-200 bg-white flex gap-4">
+                <button
+                    onClick={onClose}
+                    className="flex-1 py-5 px-6 rounded-xl font-bold text-lg text-slate-700 bg-slate-100 hover:bg-slate-200 transition-colors"
+                >
+                    Batal
+                </button>
+                <button
+                    onClick={handleConfirm}
+                    disabled={!isValid}
+                    className={`flex-1 py-5 px-6 rounded-xl font-bold text-lg text-white flex items-center justify-center gap-2 transition-all active:scale-95 ${isValid ? 'bg-green-600 hover:bg-green-700' : 'bg-slate-400 cursor-not-allowed'
+                        }`}
+                >
+                    <Check size={24} />
+                    KONFIRMASI BAYAR
+                </button>
             </div>
         </div>
     );

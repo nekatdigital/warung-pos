@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
-import { ResponsivePOS } from './components/pos/ResponsivePOS';
+import { TransactionPage } from './pages/TransactionPage';
 import { ReportPage } from './pages/ReportPage';
 import { ShoppingCart, BarChart3, Settings } from 'lucide-react';
 import { DEMO_PRODUCTS, DEMO_CATEGORIES } from './services/supabase';
@@ -28,7 +28,7 @@ function Navigation() {
                 to="/"
                 className={({ isActive }) =>
                   `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-orange-100 text-orange-700'
                     : 'text-slate-600 hover:bg-slate-100'
                   }`
                 }
@@ -38,23 +38,10 @@ function Navigation() {
               </NavLink>
 
               <NavLink
-                to="/kasir-baru"
-                className={({ isActive }) =>
-                  `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
-                    ? 'bg-orange-100 text-orange-700'
-                    : 'text-slate-600 hover:bg-slate-100'
-                  }`
-                }
-              >
-                <span className="text-xl">✨</span>
-                <span className="text-sm md:text-base">Kasir Baru</span>
-              </NavLink>
-
-              <NavLink
                 to="/laporan"
                 className={({ isActive }) =>
                   `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-orange-100 text-orange-700'
                     : 'text-slate-600 hover:bg-slate-100'
                   }`
                 }
@@ -67,7 +54,7 @@ function Navigation() {
                 to="/pengaturan"
                 className={({ isActive }) =>
                   `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
-                    ? 'bg-green-100 text-green-700'
+                    ? 'bg-orange-100 text-orange-700'
                     : 'text-slate-600 hover:bg-slate-100'
                   }`
                 }
@@ -85,7 +72,7 @@ function Navigation() {
 
 function SettingsPage() {
   return (
-    <div className="min-h-screen bg-slate-100 py-6">
+    <div className="min-h-screen py-6 bg-page">
       <div className="max-w-2xl mx-auto p-4">
         <h1 className="text-3xl font-bold text-slate-800 mb-6">⚙️ Pengaturan</h1>
 
@@ -133,28 +120,15 @@ function SettingsPage() {
   );
 }
 
-/**
- * New Elderly-Friendly POS Page
- * Uses ResponsivePOS component that switches between Mobile and Tablet layouts
- */
-function NewCashierPage() {
-  return (
-    <ResponsivePOS
-      products={DEMO_PRODUCTS}
-      categories={DEMO_CATEGORIES}
-      tableNumber="Meja 1"
-    />
-  );
-}
-
 function App() {
   return (
     <BrowserRouter>
-      <div className="pb-20 md:pb-0 md:pt-16">
-        <Navigation />
+      <Navigation />
+      {/* Container utama dengan padding agar tidak tertutup Navbar */}
+      <div className="pb-20 md:pb-0 md:pt-16 min-h-screen">
         <Routes>
-          <Route path="/" element={<OldCashierPage />} />
-          <Route path="/kasir-baru" element={<NewCashierPage />} />
+          {/* Route '/' menggunakan TransactionPage yang baru (Adaptive Layout) */}
+          <Route path="/" element={<TransactionPage />} />
           <Route path="/laporan" element={<ReportPage />} />
           <Route path="/pengaturan" element={<SettingsPage />} />
         </Routes>
@@ -162,8 +136,5 @@ function App() {
     </BrowserRouter>
   );
 }
-
-// Keep old cashier page for comparison
-import { CashierPage as OldCashierPage } from './pages/CashierPage';
 
 export default App;
