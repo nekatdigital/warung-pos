@@ -148,7 +148,7 @@ function App() {
         onCartClick={() => setIsCartSheetOpen(true)}
       />
       {/* Container utama dengan padding agar tidak tertutup Navbar */}
-      <div className="pb-20 md:pb-0 md:pt-16 min-h-screen">
+      <div className="md:pb-0 md:pt-16 min-h-screen">
         <Routes>
           {/* Route '/' menggunakan TransactionPage yang baru (Adaptive Layout) */}
           <Route path="/" element={<TransactionPage isCartSheetOpen={isCartSheetOpen} onCartSheetOpenChange={setIsCartSheetOpen} />} />
