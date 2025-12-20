@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ShoppingCart, Home, Settings, Trash2, Plus, Minus, X } from 'lucide-react';
+import { Trash2, Plus, Minus, X } from 'lucide-react';
 import type { Product, CartItem } from '../../types';
 
 interface MobileLayoutProps {
@@ -14,6 +14,8 @@ interface MobileLayoutProps {
   onClearCart: () => void;
   onCheckout: () => void;
   total: number;
+  isCartSheetOpen?: boolean;
+  onCartSheetOpenChange?: (open: boolean) => void;
 }
 
 export function MobileLayout({
@@ -28,9 +30,18 @@ export function MobileLayout({
   onClearCart,
   onCheckout,
   total,
+  isCartSheetOpen: propIsCartSheetOpen = false,
+  onCartSheetOpenChange: propOnCartSheetOpenChange,
 }: MobileLayoutProps) {
-  const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
-  const [activeNav, setActiveNav] = useState<'home' | 'cart' | 'settings'>('home');
+  const [localIsCartSheetOpen, setLocalIsCartSheetOpen] = useState(false);
+  const isCartSheetOpen = propOnCartSheetOpenChange ? propIsCartSheetOpen : localIsCartSheetOpen;
+  const setIsCartSheetOpen = (open: boolean) => {
+    if (propOnCartSheetOpenChange) {
+      propOnCartSheetOpenChange(open);
+    } else {
+      setLocalIsCartSheetOpen(open);
+    }
+  };
 
   const filteredProducts = selectedCategory
     ? products.filter((p) => p.category_id === selectedCategory)
@@ -92,7 +103,7 @@ export function MobileLayout({
       </header>
 
       {/* Main Content - Products List */}
-      <main className="flex-1 overflow-y-auto p-4 space-y-3 pb-32">
+      <main className="flex-1 overflow-y-auto p-4 space-y-3 pb-8">
         {filteredProducts.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-slate-400 py-20">
             <span className="text-5xl mb-3">🍽️</span>
@@ -141,163 +152,118 @@ export function MobileLayout({
         )}
       </main>
 
-      {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-2xl flex items-center justify-around h-20">
-        <button
-          onClick={() => setActiveNav('home')}
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
-            activeNav === 'home'
-              ? 'bg-orange-100 text-orange-700'
-              : 'text-slate-600'
-          }`}
-        >
-          <Home size={28} />
-          <span className="text-xs font-semibold">Home</span>
-        </button>
-
-        <button
-          onClick={() => {
-            setActiveNav('cart');
-            setIsCartSheetOpen(true);
-          }}
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors relative ${
-            activeNav === 'cart' || itemCount > 0
-              ? 'bg-orange-100 text-orange-700'
-              : 'text-slate-600'
-          }`}
-        >
-          <ShoppingCart size={28} />
-          {itemCount > 0 && (
-            <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs font-bold flex items-center justify-center">
-              {itemCount}
-            </span>
-          )}
-          <span className="text-xs font-semibold">Pesanan</span>
-        </button>
-
-        <button
-          onClick={() => setActiveNav('settings')}
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
-            activeNav === 'settings'
-              ? 'bg-orange-100 text-orange-700'
-              : 'text-slate-600'
-          }`}
-        >
-          <Settings size={28} />
-          <span className="text-xs font-semibold">Lainnya</span>
-        </button>
-      </nav>
-
-      {/* Cart Bottom Sheet */}
+      {/* Cart Full Screen Modal */}
       {isCartSheetOpen && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 z-50 transition-opacity md:hidden">
-          <div className="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl max-h-96 overflow-auto flex flex-col shadow-2xl">
-            {/* Sheet Header */}
-            <div className="sticky top-0 bg-white border-b border-slate-200 p-4 flex items-center justify-between rounded-t-3xl">
-              <h2 className="text-xl font-bold text-slate-800">🛒 Pesanan Anda</h2>
-              <button
-                onClick={() => setIsCartSheetOpen(false)}
-                className="p-2 text-slate-400 hover:text-slate-600"
-              >
-                <X size={24} />
-              </button>
-            </div>
+        <div className="fixed inset-0 bg-white z-50 flex flex-col overflow-hidden md:hidden">
+          {/* Modal Header */}
+          <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-slate-200 bg-white">
+            <h2 className="text-3xl font-bold text-slate-800">🛒 Pesanan Anda</h2>
+            <button
+              onClick={() => setIsCartSheetOpen(false)}
+              className="p-2 text-slate-400 hover:text-slate-600 transition-colors"
+              aria-label="Close cart"
+            >
+              <X size={28} />
+            </button>
+          </div>
 
-            {/* Sheet Content */}
-            {cart.length === 0 ? (
-              <div className="flex flex-col items-center justify-center py-16 text-slate-400">
-                <span className="text-5xl mb-3">🛒</span>
-                <span className="text-lg">Keranjang kosong</span>
-                <span className="text-sm mt-2">Pilih menu di atas</span>
-              </div>
-            ) : (
-              <>
-                {/* Cart Items */}
-                <div className="flex-1 overflow-y-auto p-4 space-y-3">
-                  {cart.map((item) => (
-                    <div
-                      key={item.id}
-                      className="p-3 rounded-lg border border-slate-200 space-y-2 bg-card-item"
-                    >
-                      <div className="flex items-start gap-3">
-                        <span className="text-3xl flex-shrink-0">
-                          {item.emoji || '🍽️'}
-                        </span>
-                        <div className="flex-1 min-w-0">
-                          <p className="font-bold text-slate-800 truncate">
-                            {item.name}
-                          </p>
-                          <p className="text-slate-500 text-sm">
-                            Rp {item.price.toLocaleString('id-ID')}
-                          </p>
-                        </div>
+          {/* Modal Content - Scrollable */}
+          {cart.length === 0 ? (
+            <div className="flex-1 flex flex-col items-center justify-center text-slate-400 py-20">
+              <span className="text-7xl mb-4">🛒</span>
+              <span className="text-2xl font-semibold">Keranjang kosong</span>
+              <span className="text-lg mt-3">Pilih menu di atas untuk menambah pesanan</span>
+            </div>
+          ) : (
+            <>
+              {/* Cart Items */}
+              <div className="flex-1 overflow-y-auto px-6 py-8 space-y-4">
+                {cart.map((item) => (
+                  <div
+                    key={item.id}
+                    className="p-4 rounded-xl border-2 border-slate-200 space-y-3 bg-card-item"
+                  >
+                    <div className="flex items-start gap-4">
+                      <span className="text-4xl flex-shrink-0">
+                        {item.emoji || '🍽️'}
+                      </span>
+                      <div className="flex-1 min-w-0">
+                        <p className="font-bold text-slate-800 text-lg">
+                          {item.name}
+                        </p>
+                        <p className="text-slate-500 text-base mt-1">
+                          Rp {item.price.toLocaleString('id-ID')}
+                        </p>
+                      </div>
+                      <button
+                        onClick={() => onRemoveItem(item.id)}
+                        className="p-2 flex-shrink-0 text-slate-400 hover:text-red-500 transition-colors"
+                        aria-label={`Remove ${item.name}`}
+                      >
+                        <Trash2 size={22} />
+                      </button>
+                    </div>
+
+                    <div className="flex items-center justify-between gap-4 pt-2">
+                      <div className="flex items-center gap-2">
                         <button
-                          onClick={() => onRemoveItem(item.id)}
-                          className="p-1 flex-shrink-0 text-slate-400 hover:text-red-500"
+                          onClick={() => onUpdateQuantity(item.id, -1)}
+                          className="w-10 h-10 rounded-full border-3 border-red-300 bg-white flex items-center justify-center text-red-600 font-bold hover:bg-red-50 transition-colors"
+                          aria-label={`Decrease ${item.name} quantity`}
                         >
-                          <Trash2 size={18} />
+                          <Minus size={18} />
+                        </button>
+                        <span className="w-8 text-center font-bold text-base">
+                          {item.quantity}
+                        </span>
+                        <button
+                          onClick={() => onUpdateQuantity(item.id, 1)}
+                          className="w-10 h-10 rounded-full border-3 border-green-300 bg-white flex items-center justify-center text-green-600 font-bold hover:bg-green-50 transition-colors"
+                          aria-label={`Increase ${item.name} quantity`}
+                        >
+                          <Plus size={18} />
                         </button>
                       </div>
 
-                      <div className="flex items-center justify-between gap-2">
-                        <div className="flex items-center gap-1">
-                          <button
-                            onClick={() => onUpdateQuantity(item.id, -1)}
-                            className="w-8 h-8 rounded-full border-2 border-red-300 bg-white flex items-center justify-center text-red-600 font-bold"
-                          >
-                            <Minus size={16} />
-                          </button>
-                          <span className="w-6 text-center font-bold text-sm">
-                            {item.quantity}
-                          </span>
-                          <button
-                            onClick={() => onUpdateQuantity(item.id, 1)}
-                            className="w-8 h-8 rounded-full border-2 border-green-300 bg-white flex items-center justify-center text-green-600 font-bold"
-                          >
-                            <Plus size={16} />
-                          </button>
-                        </div>
-
-                        <div className="text-right flex-shrink-0">
-                          <p className="font-bold text-slate-800 text-sm">
-                            Rp{' '}
-                            {(item.price * item.quantity).toLocaleString('id-ID')}
-                          </p>
-                        </div>
+                      <div className="text-right flex-shrink-0">
+                        <p className="font-bold text-slate-800 text-lg">
+                          Rp{' '}
+                          {(item.price * item.quantity).toLocaleString('id-ID')}
+                        </p>
                       </div>
                     </div>
-                  ))}
-                </div>
-
-                {/* Sheet Footer */}
-                <div className="sticky bottom-0 bg-white border-t border-slate-200 p-4 space-y-3">
-                  <div className="flex justify-between items-center">
-                    <span className="font-bold text-slate-600">Total</span>
-                    <span className="text-2xl font-bold text-slate-800">
-                      Rp {total.toLocaleString('id-ID')}
-                    </span>
                   </div>
+                ))}
+              </div>
 
-                  <button
-                    onClick={onCheckout}
-                    className="w-full btn-primary text-lg py-3"
-                  >
-                    💵 BAYAR
-                  </button>
-
-                  {cart.length > 0 && (
-                    <button
-                      onClick={onClearCart}
-                      className="w-full flex items-center justify-center gap-2 text-red-500 font-semibold px-4 py-2 rounded-lg hover:bg-red-50 transition-colors"
-                    >
-                      <Trash2 size={20} />
-                      Hapus Semua
-                    </button>
-                  )}
+              {/* Modal Footer */}
+              <div className="flex-shrink-0 border-t border-slate-200 p-6 bg-white space-y-4">
+                <div className="flex justify-between items-center">
+                  <span className="font-bold text-slate-600 text-lg">Total Pesanan</span>
+                  <span className="text-3xl font-bold text-slate-800">
+                    Rp {total.toLocaleString('id-ID')}
+                  </span>
                 </div>
-              </>
-            )}
-          </div>
+
+                <button
+                  onClick={onCheckout}
+                  className="w-full btn-primary text-lg py-4 font-bold"
+                >
+                  💵 BAYAR
+                </button>
+
+                {cart.length > 0 && (
+                  <button
+                    onClick={onClearCart}
+                    className="w-full flex items-center justify-center gap-2 text-red-500 font-semibold px-4 py-3 rounded-lg hover:bg-red-50 transition-colors"
+                  >
+                    <Trash2 size={20} />
+                    Hapus Semua Pesanan
+                  </button>
+                )}
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>
