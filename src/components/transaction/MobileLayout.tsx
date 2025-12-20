@@ -14,6 +14,8 @@ interface MobileLayoutProps {
   onClearCart: () => void;
   onCheckout: () => void;
   total: number;
+  isCartSheetOpen?: boolean;
+  onCartSheetOpenChange?: (open: boolean) => void;
 }
 
 export function MobileLayout({
