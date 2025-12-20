@@ -64,8 +64,8 @@ body {
 }
 
 /* Ensure touch targets are at least 48x48px */
-button, 
-a, 
+button,
+a,
 .touchable {
   min-height: var(--touch-min);
   min-width: var(--touch-min);
@@ -349,9 +349,17 @@ a,
 
 /* Animation for adding items */
 @keyframes pop {
-  0% { transform: scale(1); }
-  50% { transform: scale(1.1); }
-  100% { transform: scale(1); }
+  0% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(1.1);
+  }
+
+  100% {
+    transform: scale(1);
+  }
 }
 
 .pop-animation {

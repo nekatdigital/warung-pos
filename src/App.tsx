@@ -2,6 +2,10 @@ import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { TransactionPage } from './pages/TransactionPage';
 import { ReportPage } from './pages/ReportPage';
 import { ShoppingCart, BarChart3, Settings } from 'lucide-react';
+import { DEMO_PRODUCTS, DEMO_CATEGORIES } from './services/supabase';
+
+// Import POS styles
+import './components/pos/pos.css';
 
 function Navigation() {
   return (
@@ -120,8 +124,10 @@ function App() {
   return (
     <BrowserRouter>
       <Navigation />
+      {/* Container utama dengan padding agar tidak tertutup Navbar */}
       <div className="pb-20 md:pb-0 md:pt-16 min-h-screen">
         <Routes>
+          {/* Route '/' menggunakan TransactionPage yang baru (Adaptive Layout) */}
           <Route path="/" element={<TransactionPage />} />
           <Route path="/laporan" element={<ReportPage />} />
           <Route path="/pengaturan" element={<SettingsPage />} />

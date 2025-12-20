@@ -1,0 +1,1075 @@
+/* ================================================================
+   ELDERLY-FRIENDLY POS DESIGN SYSTEM
+   Following WCAG AAA Guidelines
+   ================================================================ */
+
+/* ==================== DESIGN TOKENS ==================== */
+:root {
+    /* Primary Colors */
+    --pos-action: #E05D34;
+    /* Terracotta - Pay Button */
+    --pos-action-hover: #C94D28;
+    --pos-action-active: #B14422;
+
+    --pos-success: #16A34A;
+    /* Green - Success */
+    --pos-success-dark: #15803D;
+
+    --pos-secondary: #F4F2F0;
+    /* Light Gray - Reset/Cancel */
+    --pos-secondary-hover: #E8E5E2;
+    --pos-secondary-active: #DBD8D4;
+
+    /* Text Colors */
+    --pos-text: #1A202C;
+    /* Almost Black */
+    --pos-text-muted: #4A5568;
+    --pos-text-light: #718096;
+
+    /* Background Colors */
+    --pos-bg: #FAFAF9;
+    --pos-bg-white: #FFFFFF;
+    --pos-bg-paper: #FFFEF9;
+    /* Slightly warm white for bill */
+
+    /* Borders */
+    --pos-border: #E2E8F0;
+    --pos-border-focus: #E05D34;
+
+    /* Typography - MINIMUM 18px */
+    --pos-font-base: 18px;
+    --pos-font-lg: 20px;
+    --pos-font-xl: 24px;
+    --pos-font-2xl: 28px;
+    --pos-font-3xl: 36px;
+    --pos-font-4xl: 48px;
+
+    /* Touch Targets - MINIMUM 60px */
+    --pos-touch-min: 60px;
+    --pos-touch-lg: 72px;
+
+    /* Spacing */
+    --pos-space-xs: 8px;
+    --pos-space-sm: 12px;
+    --pos-space-md: 16px;
+    --pos-space-lg: 24px;
+    --pos-space-xl: 32px;
+
+    /* Border Radius */
+    --pos-radius-sm: 8px;
+    --pos-radius-md: 12px;
+    --pos-radius-lg: 16px;
+    --pos-radius-xl: 20px;
+
+    /* Shadows */
+    --pos-shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --pos-shadow-md: 0 4px 12px rgba(0, 0, 0, 0.15);
+    --pos-shadow-lg: 0 10px 40px rgba(0, 0, 0, 0.2);
+}
+
+/* ==================== MOBILE POS LAYOUT ==================== */
+
+.mobile-pos-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--pos-bg);
+}
+
+/* ----- Mobile Top Bar ----- */
+.mobile-topbar {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--pos-space-md) var(--pos-space-lg);
+    background: var(--pos-bg-white);
+    border-bottom: 2px solid var(--pos-border);
+    box-shadow: var(--pos-shadow-sm);
+}
+
+.mobile-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--pos-space-sm);
+}
+
+.mobile-logo-icon {
+    font-size: 32px;
+}
+
+.mobile-logo-text {
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    color: var(--pos-text);
+}
+
+.mobile-table-badge {
+    padding: var(--pos-space-xs) var(--pos-space-md);
+    background: var(--pos-secondary);
+    border-radius: var(--pos-radius-md);
+    font-size: var(--pos-font-lg);
+    font-weight: 600;
+    color: var(--pos-text);
+}
+
+/* ----- Mobile Content ----- */
+.mobile-content {
+    flex: 1;
+    padding: var(--pos-space-md);
+    padding-bottom: calc(15vh + var(--pos-space-lg));
+    overflow-y: auto;
+}
+
+/* ----- Mobile Product Row ----- */
+.mobile-product-row {
+    display: flex;
+    align-items: center;
+    gap: var(--pos-space-md);
+    padding: var(--pos-space-md);
+    background: var(--pos-bg-white);
+    border-radius: var(--pos-radius-lg);
+    margin-bottom: var(--pos-space-md);
+    box-shadow: var(--pos-shadow-sm);
+}
+
+.mobile-product-image {
+    width: 80px;
+    height: 80px;
+    border-radius: var(--pos-radius-md);
+    background: var(--pos-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    overflow: hidden;
+}
+
+.mobile-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.mobile-product-emoji {
+    font-size: 40px;
+}
+
+.mobile-product-info {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.mobile-product-name {
+    font-size: var(--pos-font-lg);
+    font-weight: 600;
+    color: var(--pos-text);
+    line-height: 1.3;
+}
+
+.mobile-product-price {
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    color: var(--pos-action);
+}
+
+/* ----- Mobile Add Button ----- */
+.mobile-product-action {
+    flex-shrink: 0;
+}
+
+.mobile-add-btn {
+    min-height: var(--pos-touch-min);
+    min-width: 100px;
+    padding: 0 var(--pos-space-lg);
+    background: var(--pos-action);
+    color: white;
+    border: none;
+    border-radius: var(--pos-radius-md);
+    font-size: var(--pos-font-lg);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.mobile-add-btn:active {
+    background: var(--pos-action-active);
+    transform: scale(0.97);
+}
+
+/* ----- Mobile Quantity Control ----- */
+.mobile-qty-control {
+    display: flex;
+    align-items: center;
+    gap: var(--pos-space-xs);
+    background: var(--pos-secondary);
+    border-radius: var(--pos-radius-md);
+    padding: 4px;
+}
+
+.mobile-qty-btn {
+    width: var(--pos-touch-min);
+    height: var(--pos-touch-min);
+    border: none;
+    border-radius: var(--pos-radius-sm);
+    font-size: var(--pos-font-2xl);
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.15s ease;
+}
+
+.mobile-qty-minus {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+.mobile-qty-plus {
+    background: #DCFCE7;
+    color: #16A34A;
+}
+
+.mobile-qty-btn:active {
+    transform: scale(0.95);
+}
+
+.mobile-qty-value {
+    min-width: 48px;
+    text-align: center;
+    font-size: var(--pos-font-2xl);
+    font-weight: 700;
+    color: var(--pos-text);
+}
+
+/* ----- Mobile Bottom Bar (15% height) ----- */
+.mobile-bottombar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 15vh;
+    min-height: 120px;
+    display: flex;
+    align-items: center;
+    gap: var(--pos-space-lg);
+    padding: var(--pos-space-lg);
+    background: var(--pos-bg-white);
+    border-top: 3px solid var(--pos-border);
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.1);
+    z-index: 100;
+}
+
+.mobile-total {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.mobile-total-label {
+    font-size: var(--pos-font-base);
+    color: var(--pos-text-muted);
+}
+
+.mobile-total-amount {
+    font-size: var(--pos-font-3xl);
+    font-weight: 700;
+    color: var(--pos-text);
+    white-space: nowrap;
+}
+
+.mobile-pay-btn {
+    flex: 1;
+    height: 100%;
+    min-height: var(--pos-touch-lg);
+    background: var(--pos-action);
+    color: white;
+    border: none;
+    border-radius: var(--pos-radius-lg);
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.mobile-pay-btn:disabled {
+    background: #CBD5E1;
+    cursor: not-allowed;
+}
+
+.mobile-pay-btn:not(:disabled):active {
+    background: var(--pos-action-active);
+    transform: scale(0.98);
+}
+
+/* ==================== TABLET POS LAYOUT ==================== */
+
+.tablet-pos-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: var(--pos-bg);
+}
+
+/* ----- Tablet Header ----- */
+.tablet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--pos-space-md) var(--pos-space-xl);
+    background: var(--pos-bg-white);
+    border-bottom: 2px solid var(--pos-border);
+    box-shadow: var(--pos-shadow-sm);
+}
+
+.tablet-logo {
+    display: flex;
+    align-items: center;
+    gap: var(--pos-space-md);
+}
+
+.tablet-logo-icon {
+    font-size: 40px;
+}
+
+.tablet-logo-text {
+    font-size: var(--pos-font-2xl);
+    font-weight: 700;
+    color: var(--pos-text);
+}
+
+.tablet-table-badge {
+    padding: var(--pos-space-sm) var(--pos-space-lg);
+    background: var(--pos-secondary);
+    border-radius: var(--pos-radius-md);
+    font-size: var(--pos-font-xl);
+    font-weight: 600;
+    color: var(--pos-text);
+}
+
+/* ----- Tablet Main Grid ----- */
+.tablet-main-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 0;
+    overflow: hidden;
+}
+
+/* ----- Tablet Menu Section (8 columns) ----- */
+.tablet-menu-section {
+    grid-column: span 8;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    background: var(--pos-bg);
+}
+
+/* ----- Tablet Category Tabs ----- */
+.tablet-category-tabs {
+    display: flex;
+    gap: var(--pos-space-sm);
+    padding: var(--pos-space-lg);
+    background: var(--pos-bg-white);
+    border-bottom: 2px solid var(--pos-border);
+    overflow-x: auto;
+}
+
+.tablet-category-tab {
+    min-height: var(--pos-touch-min);
+    padding: 0 var(--pos-space-xl);
+    background: var(--pos-secondary);
+    border: 3px solid transparent;
+    border-radius: var(--pos-radius-md);
+    font-size: var(--pos-font-lg);
+    font-weight: 600;
+    color: var(--pos-text-muted);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all 0.15s ease;
+}
+
+.tablet-category-tab:hover {
+    background: var(--pos-secondary-hover);
+}
+
+.tablet-category-tab.active {
+    background: var(--pos-action);
+    color: white;
+    border-color: var(--pos-action-hover);
+}
+
+/* ----- Tablet Product Grid ----- */
+.tablet-product-grid {
+    flex: 1;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: var(--pos-space-lg);
+    padding: var(--pos-space-lg);
+    overflow-y: auto;
+}
+
+.tablet-product-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: var(--pos-space-lg);
+    background: var(--pos-bg-white);
+    border: 3px solid transparent;
+    border-radius: var(--pos-radius-xl);
+    box-shadow: var(--pos-shadow-sm);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tablet-product-card:active {
+    transform: scale(0.97);
+}
+
+.tablet-product-card.in-cart {
+    border-color: var(--pos-action);
+    background: #FFF5F2;
+}
+
+.tablet-product-qty-badge {
+    position: absolute;
+    top: -12px;
+    right: -12px;
+    width: 44px;
+    height: 44px;
+    background: var(--pos-action);
+    color: white;
+    border-radius: 50%;
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: var(--pos-shadow-md);
+}
+
+.tablet-product-image {
+    width: 100px;
+    height: 100px;
+    border-radius: var(--pos-radius-lg);
+    background: var(--pos-secondary);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: var(--pos-space-md);
+    overflow: hidden;
+}
+
+.tablet-product-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.tablet-product-emoji {
+    font-size: 56px;
+}
+
+.tablet-product-name {
+    font-size: var(--pos-font-lg);
+    font-weight: 600;
+    color: var(--pos-text);
+    text-align: center;
+    line-height: 1.3;
+    margin-bottom: var(--pos-space-xs);
+}
+
+.tablet-product-price {
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    color: var(--pos-action);
+}
+
+/* ----- Tablet Bill Section (4 columns) ----- */
+.tablet-bill-section {
+    grid-column: span 4;
+    background: #E8E5E2;
+    padding: var(--pos-space-lg);
+    display: flex;
+    flex-direction: column;
+}
+
+.tablet-bill-paper {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    background: var(--pos-bg-paper);
+    border-radius: var(--pos-radius-lg);
+    box-shadow: var(--pos-shadow-md);
+    overflow: hidden;
+}
+
+.tablet-bill-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--pos-space-lg);
+    border-bottom: 2px dashed var(--pos-border);
+}
+
+.tablet-bill-title {
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    color: var(--pos-text);
+    margin: 0;
+}
+
+.tablet-bill-count {
+    font-size: var(--pos-font-base);
+    color: var(--pos-text-muted);
+}
+
+/* ----- Tablet Bill Items ----- */
+.tablet-bill-items {
+    flex: 1;
+    overflow-y: auto;
+    padding: var(--pos-space-md);
+}
+
+.tablet-bill-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    text-align: center;
+    padding: var(--pos-space-xl);
+}
+
+.tablet-bill-empty-icon {
+    font-size: 64px;
+    margin-bottom: var(--pos-space-md);
+    opacity: 0.5;
+}
+
+.tablet-bill-empty-text {
+    font-size: var(--pos-font-lg);
+    color: var(--pos-text-muted);
+    margin-bottom: var(--pos-space-xs);
+}
+
+.tablet-bill-empty-hint {
+    font-size: var(--pos-font-base);
+    color: var(--pos-text-light);
+}
+
+.tablet-bill-item {
+    padding: var(--pos-space-md);
+    border-bottom: 1px solid var(--pos-border);
+}
+
+.tablet-bill-item:last-child {
+    border-bottom: none;
+}
+
+.tablet-bill-item-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    margin-bottom: var(--pos-space-sm);
+}
+
+.tablet-bill-item-name {
+    font-size: var(--pos-font-lg);
+    font-weight: 600;
+    color: var(--pos-text);
+}
+
+.tablet-bill-item-price {
+    font-size: var(--pos-font-base);
+    color: var(--pos-text-muted);
+}
+
+.tablet-bill-item-actions {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.tablet-bill-item-subtotal {
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    color: var(--pos-text);
+}
+
+.tablet-bill-item-controls {
+    display: flex;
+    align-items: center;
+    gap: var(--pos-space-xs);
+}
+
+.tablet-qty-btn {
+    width: 48px;
+    height: 48px;
+    border: 2px solid var(--pos-border);
+    border-radius: var(--pos-radius-sm);
+    background: var(--pos-bg-white);
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    color: var(--pos-text);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tablet-qty-btn:active {
+    background: var(--pos-secondary);
+}
+
+.tablet-qty-display {
+    min-width: 32px;
+    text-align: center;
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+}
+
+.tablet-remove-btn {
+    min-height: 48px;
+    padding: 0 var(--pos-space-md);
+    background: #FEE2E2;
+    border: none;
+    border-radius: var(--pos-radius-sm);
+    color: #DC2626;
+    font-size: var(--pos-font-base);
+    font-weight: 600;
+    cursor: pointer;
+    margin-left: var(--pos-space-sm);
+}
+
+.tablet-remove-btn:active {
+    background: #FECACA;
+}
+
+/* ----- Tablet Bill Footer ----- */
+.tablet-bill-footer {
+    padding: var(--pos-space-lg);
+    border-top: 2px dashed var(--pos-border);
+    background: var(--pos-bg-white);
+}
+
+.tablet-reset-btn {
+    width: 100%;
+    min-height: var(--pos-touch-min);
+    background: var(--pos-secondary);
+    border: none;
+    border-radius: var(--pos-radius-md);
+    font-size: var(--pos-font-lg);
+    font-weight: 600;
+    color: var(--pos-text-muted);
+    cursor: pointer;
+    margin-bottom: var(--pos-space-md);
+}
+
+.tablet-reset-btn:active {
+    background: var(--pos-secondary-active);
+}
+
+.tablet-bill-total {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--pos-space-lg);
+}
+
+.tablet-bill-total-label {
+    font-size: var(--pos-font-xl);
+    font-weight: 600;
+    color: var(--pos-text-muted);
+}
+
+.tablet-bill-total-amount {
+    font-size: var(--pos-font-3xl);
+    font-weight: 700;
+    color: var(--pos-text);
+}
+
+.tablet-pay-btn {
+    width: 100%;
+    min-height: var(--pos-touch-lg);
+    background: var(--pos-action);
+    border: none;
+    border-radius: var(--pos-radius-lg);
+    font-size: var(--pos-font-2xl);
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.tablet-pay-btn:disabled {
+    background: #CBD5E1;
+    cursor: not-allowed;
+}
+
+.tablet-pay-btn:not(:disabled):active {
+    background: var(--pos-action-active);
+    transform: scale(0.98);
+}
+
+/* ==================== PAYMENT SHEET ==================== */
+
+.payment-sheet-overlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: var(--pos-space-lg);
+}
+
+.payment-sheet-modal {
+    width: 100%;
+    max-width: 500px;
+    max-height: 95vh;
+    background: var(--pos-bg-white);
+    border-radius: var(--pos-radius-xl);
+    box-shadow: var(--pos-shadow-lg);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-sheet-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: var(--pos-space-lg);
+    background: var(--pos-action);
+    color: white;
+}
+
+.payment-sheet-title {
+    font-size: var(--pos-font-2xl);
+    font-weight: 700;
+    margin: 0;
+}
+
+.payment-close-btn {
+    min-height: var(--pos-touch-min);
+    padding: 0 var(--pos-space-lg);
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    border-radius: var(--pos-radius-md);
+    color: white;
+    font-size: var(--pos-font-lg);
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.payment-close-btn:active {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+/* ----- Payment Total Display ----- */
+.payment-total-display {
+    padding: var(--pos-space-xl);
+    text-align: center;
+    background: var(--pos-secondary);
+}
+
+.payment-total-label {
+    display: block;
+    font-size: var(--pos-font-lg);
+    color: var(--pos-text-muted);
+    margin-bottom: var(--pos-space-xs);
+}
+
+.payment-total-amount {
+    display: block;
+    font-size: var(--pos-font-4xl);
+    font-weight: 700;
+    color: var(--pos-text);
+}
+
+/* ----- Quick Cash Buttons ----- */
+.payment-quick-cash {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: var(--pos-space-md);
+    padding: var(--pos-space-lg);
+}
+
+.payment-quick-btn {
+    min-height: var(--pos-touch-min);
+    background: var(--pos-secondary);
+    border: 3px solid transparent;
+    border-radius: var(--pos-radius-md);
+    font-size: var(--pos-font-lg);
+    font-weight: 600;
+    color: var(--pos-text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.payment-quick-btn:active {
+    transform: scale(0.97);
+}
+
+.payment-quick-btn.selected {
+    background: #FFF5F2;
+    border-color: var(--pos-action);
+    color: var(--pos-action);
+}
+
+.payment-quick-btn.disabled {
+    opacity: 0.4;
+    cursor: not-allowed;
+}
+
+/* ----- Cash Input Display ----- */
+.payment-input-section {
+    padding: 0 var(--pos-space-lg);
+    margin-bottom: var(--pos-space-md);
+}
+
+.payment-input-label {
+    display: block;
+    font-size: var(--pos-font-base);
+    color: var(--pos-text-muted);
+    margin-bottom: var(--pos-space-xs);
+}
+
+.payment-input-display {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--pos-space-sm);
+    padding: var(--pos-space-lg);
+    background: var(--pos-bg);
+    border: 3px solid var(--pos-border);
+    border-radius: var(--pos-radius-md);
+}
+
+.payment-input-prefix {
+    font-size: var(--pos-font-2xl);
+    font-weight: 600;
+    color: var(--pos-text-muted);
+}
+
+.payment-input-value {
+    font-size: var(--pos-font-3xl);
+    font-weight: 700;
+    color: var(--pos-text);
+}
+
+/* ----- Numeric Keypad ----- */
+.payment-keypad {
+    padding: 0 var(--pos-space-lg);
+    margin-bottom: var(--pos-space-md);
+}
+
+.payment-keypad-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: var(--pos-space-sm);
+    margin-bottom: var(--pos-space-sm);
+}
+
+.payment-keypad-btn {
+    height: var(--pos-touch-lg);
+    background: var(--pos-secondary);
+    border: none;
+    border-radius: var(--pos-radius-md);
+    font-size: var(--pos-font-2xl);
+    font-weight: 700;
+    color: var(--pos-text);
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.payment-keypad-btn:active {
+    background: var(--pos-secondary-active);
+    transform: scale(0.97);
+}
+
+.payment-keypad-btn.clear {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+.payment-keypad-btn.backspace {
+    background: #FEF3C7;
+    color: #D97706;
+}
+
+/* ----- Change Display ----- */
+.payment-change-display {
+    margin: 0 var(--pos-space-lg) var(--pos-space-md);
+    padding: var(--pos-space-lg);
+    border-radius: var(--pos-radius-md);
+    text-align: center;
+}
+
+.payment-change-display.valid {
+    background: #DCFCE7;
+    border: 2px solid #16A34A;
+}
+
+.payment-change-display.invalid {
+    background: #FEE2E2;
+    border: 2px solid #DC2626;
+}
+
+.payment-change-label {
+    display: block;
+    font-size: var(--pos-font-lg);
+    margin-bottom: var(--pos-space-xs);
+}
+
+.payment-change-display.valid .payment-change-label {
+    color: #16A34A;
+}
+
+.payment-change-display.invalid .payment-change-label {
+    color: #DC2626;
+}
+
+.payment-change-amount {
+    display: block;
+    font-size: var(--pos-font-3xl);
+    font-weight: 700;
+}
+
+.payment-change-display.valid .payment-change-amount {
+    color: #15803D;
+}
+
+.payment-change-display.invalid .payment-change-amount {
+    color: #B91C1C;
+}
+
+/* ----- Confirm Button ----- */
+.payment-confirm-btn {
+    margin: 0 var(--pos-space-lg) var(--pos-space-lg);
+    min-height: var(--pos-touch-lg);
+    background: var(--pos-success);
+    border: none;
+    border-radius: var(--pos-radius-lg);
+    font-size: var(--pos-font-xl);
+    font-weight: 700;
+    color: white;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+.payment-confirm-btn:disabled {
+    background: #CBD5E1;
+    cursor: not-allowed;
+}
+
+.payment-confirm-btn:not(:disabled):active {
+    background: var(--pos-success-dark);
+    transform: scale(0.98);
+}
+
+/* ==================== SUCCESS OVERLAY ==================== */
+
+.payment-success-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--pos-success);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2000;
+    animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+.payment-success-content {
+    text-align: center;
+    color: white;
+    animation: scaleIn 0.4s ease;
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.payment-success-icon {
+    width: 120px;
+    height: 120px;
+    margin: 0 auto var(--pos-space-xl);
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    font-size: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 0.6s ease infinite alternate;
+}
+
+@keyframes pulse {
+    from {
+        transform: scale(1);
+    }
+
+    to {
+        transform: scale(1.05);
+    }
+}
+
+.payment-success-title {
+    font-size: var(--pos-font-4xl);
+    font-weight: 700;
+    margin: 0 0 var(--pos-space-lg) 0;
+}
+
+.payment-success-change {
+    font-size: var(--pos-font-2xl);
+    margin: 0;
+}
+
+.payment-success-change strong {
+    display: block;
+    font-size: var(--pos-font-4xl);
+    margin-top: var(--pos-space-sm);
+}
+
+/* ==================== RESPONSIVE: HIDE BASED ON VIEWPORT ==================== */
+
+@media (max-width: 767px) {
+    .tablet-pos-container {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .mobile-pos-container {
+        display: none;
+    }
+}
