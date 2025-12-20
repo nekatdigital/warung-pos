@@ -30,7 +30,6 @@ export function MobileLayout({
   total,
 }: MobileLayoutProps) {
   const [isCartSheetOpen, setIsCartSheetOpen] = useState(false);
-  const [activeNav, setActiveNav] = useState<'home' | 'cart' | 'settings'>('home');
 
   const filteredProducts = selectedCategory
     ? products.filter((p) => p.category_id === selectedCategory)
