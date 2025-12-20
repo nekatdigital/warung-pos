@@ -73,22 +73,34 @@ export function PaymentModal({
     if (!isOpen) return null;
 
     return (
-        <div className="fixed inset-0 z-50 bg-white flex flex-col overflow-hidden">
+        <div
+            className="fixed inset-0 z-50 bg-white flex flex-col overflow-hidden"
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="payment-modal-title"
+            aria-describedby="payment-modal-description"
+        >
             {/* Header */}
             <div className="flex-shrink-0 flex items-center justify-between p-6 border-b border-slate-200 bg-white" style={{ backgroundColor: '#FFF' }}>
                 <button
                     onClick={onClose}
                     className="flex items-center gap-2 text-lg font-bold text-slate-700 hover:text-slate-900 transition-colors"
+                    aria-label="Close payment modal"
                 >
                     <X size={28} />
                     <span>Kembali</span>
                 </button>
-                <h2 className="text-3xl font-bold text-slate-800">💵 Pembayaran</h2>
+                <h2 id="payment-modal-title" className="text-3xl font-bold text-slate-800">💵 Pembayaran</h2>
                 <div className="w-20"></div>
             </div>
 
             {/* Content - Scrollable */}
             <div className="flex-1 overflow-y-auto px-6 py-8 space-y-8">
+                {/* Modal Description - Screen Reader Only */}
+                <p id="payment-modal-description" className="sr-only">
+                    Payment form to enter the cash amount received and confirm the transaction
+                </p>
+
                 {/* Total Amount - Extra Large Display */}
                 <div className="text-center space-y-3">
                     <p className="text-lg text-slate-600 font-medium">Total Bayar</p>
