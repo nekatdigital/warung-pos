@@ -91,7 +91,7 @@ export function MobileLayout({
       </header>
 
       {/* Main Content - Products List */}
-      <main className="flex-1 overflow-y-auto p-4 space-y-3 pb-40">
+      <main className="flex-1 overflow-y-auto p-4 space-y-3 pb-8">
         {filteredProducts.length === 0 ? (
           <div className="flex flex-col items-center justify-center h-full text-slate-400 py-20">
             <span className="text-5xl mb-3">🍽️</span>
