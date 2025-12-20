@@ -141,53 +141,6 @@ export function MobileLayout({
         )}
       </main>
 
-      {/* Bottom Navigation Bar */}
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-slate-200 shadow-2xl flex items-center justify-around h-20 max-lg:min-h-[200px]">
-        <button
-          onClick={() => setActiveNav('home')}
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
-            activeNav === 'home'
-              ? 'bg-orange-100 text-orange-700'
-              : 'text-slate-600'
-          }`}
-        >
-          <Home size={28} />
-          <span className="text-xs font-semibold">Home</span>
-        </button>
-
-        <button
-          onClick={() => {
-            setActiveNav('cart');
-            setIsCartSheetOpen(true);
-          }}
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors relative max-lg:pt-[50px] ${
-            activeNav === 'cart' || itemCount > 0
-              ? 'bg-orange-100 text-orange-700'
-              : 'text-slate-600'
-          }`}
-        >
-          <ShoppingCart size={28} />
-          {itemCount > 0 && (
-            <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs font-bold flex items-center justify-center">
-              {itemCount}
-            </span>
-          )}
-          <span className="text-xs font-semibold">Pesanan</span>
-        </button>
-
-        <button
-          onClick={() => setActiveNav('settings')}
-          className={`flex flex-col items-center gap-1 px-4 py-2 rounded-lg transition-colors ${
-            activeNav === 'settings'
-              ? 'bg-orange-100 text-orange-700'
-              : 'text-slate-600'
-          }`}
-        >
-          <Settings size={28} />
-          <span className="text-xs font-semibold">Lainnya</span>
-        </button>
-      </nav>
-
       {/* Cart Full Screen Modal */}
       {isCartSheetOpen && (
         <div className="fixed inset-0 bg-white z-50 flex flex-col overflow-hidden md:hidden">
