@@ -1,18 +1,42 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 import { MenuGrid } from '../components/cashier/MenuGrid';
 import { CartPanel } from '../components/cashier/CartPanel';
 import { PaymentModal } from '../components/cashier/PaymentModal';
-import { DEMO_PRODUCTS, DEMO_CATEGORIES } from '../services/supabase';
-import type { Product, CartItem } from '../types';
+import { createOrder, getProducts, getCategories } from '../services/data';
+import type { Product, CartItem, Category } from '../types';
 
 export function CashierPage() {
     const [cart, setCart] = useState<CartItem[]>([]);
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null);
     const [isPaymentOpen, setIsPaymentOpen] = useState(false);
+    const [products, setProducts] = useState<Product[]>([]);
+    const [categories, setCategories] = useState<Category[]>([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    // For demo, use static data. In production, fetch from Supabase
-    const products = DEMO_PRODUCTS;
-    const categories = DEMO_CATEGORIES;
+    // Load products and categories from IndexedDB
+    useEffect(() => {
+        loadData();
+    }, []);
+
+    const loadData = async () => {
+        try {
+            setIsLoading(true);
+            setError(null);
+            const [prods, cats] = await Promise.all([
+                getProducts(),
+                getCategories(),
+            ]);
+            setProducts(prods);
+            setCategories(cats);
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : 'Failed to load data';
+            setError(errorMsg);
+            console.error('❌ Error loading data:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    };
 
     // Add item to cart
     const addToCart = useCallback((product: Product) => {
@@ -80,35 +104,63 @@ export function CashierPage() {
     };
 
     // Handle payment confirmation
-    const handlePaymentConfirm = (cashReceived: number) => {
-        const change = cashReceived - total;
+    const handlePaymentConfirm = async (cashReceived: number) => {
+        try {
+            const change = cashReceived - total;
 
-        // In production, save order to Supabase here
-        console.log('Order completed:', {
-            items: cart,
-            total,
-            cashReceived,
-            change,
-            timestamp: new Date().toISOString(),
-        });
+            // Validate payment
+            if (cashReceived < total) {
+                setError('Jumlah uang tidak cukup');
+                return;
+            }
 
-        // Show success message
-        alert(
-            `✅ Transaksi Berhasil!\n\n` +
-            `Total: Rp ${total.toLocaleString('id-ID')}\n` +
-            `Diterima: Rp ${cashReceived.toLocaleString('id-ID')}\n` +
-            `Kembalian: Rp ${change.toLocaleString('id-ID')}`
-        );
+            // Save order to IndexedDB
+            const order = await createOrder(total, cashReceived, change, cart);
 
-        // Clear cart and close modal
-        clearCart();
-        setIsPaymentOpen(false);
+            if (!order) {
+                throw new Error('Gagal menyimpan pesanan');
+            }
+
+            // Show success message
+            alert(
+                `✅ Transaksi Berhasil!\n\n` +
+                `Total: Rp ${total.toLocaleString('id-ID')}\n` +
+                `Diterima: Rp ${cashReceived.toLocaleString('id-ID')}\n` +
+                `Kembalian: Rp ${change.toLocaleString('id-ID')}\n\n` +
+                `ID Pesanan: ${order.id}`
+            );
+
+            // Clear cart and close modal
+            clearCart();
+            setIsPaymentOpen(false);
+            setError(null);
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : 'Gagal memproses pembayaran';
+            setError(errorMsg);
+            console.error('❌ Payment error:', err);
+        }
     };
+
+    if (isLoading) {
+        return (
+            <div className="flex items-center justify-center h-screen" style={{ backgroundColor: '#F9F7F5' }}>
+                <div className="text-center">
+                    <div className="text-6xl mb-4">🔄</div>
+                    <p className="text-lg font-semibold text-slate-600">Loading data...</p>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className="flex h-screen overflow-hidden" style={{ backgroundColor: '#F9F7F5' }}>
             {/* Left side - Menu Grid */}
             <div className="flex-1 flex flex-col overflow-hidden">
+                {error && (
+                    <div className="bg-red-100 border-b border-red-300 p-4 text-red-800">
+                        <p className="font-semibold">⚠️ Error: {error}</p>
+                    </div>
+                )}
                 <MenuGrid
                     products={products}
                     onAddToCart={addToCart}

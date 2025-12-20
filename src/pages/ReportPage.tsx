@@ -1,56 +1,76 @@
 import { useState, useEffect, useCallback } from 'react';
 import { DailyReport } from '../components/reports/DailyReport';
+import { getDailyReport } from '../services/data';
 import type { DailyReportSummary } from '../types';
 
-// Demo data for testing without Supabase
-const DEMO_REPORT: DailyReportSummary = {
-    date: new Date().toISOString().split('T')[0],
-    total_revenue: 1500000,
-    total_transactions: 45,
-    own_production_total: 950000,
-    resell_total: 250000,
-    consignment_total: 300000,
-    vendor_payouts: [
-        { vendor_name: 'Bu Siti', total_amount: 150000, item_count: 25 },
-        { vendor_name: 'Pak Budi', total_amount: 100000, item_count: 40 },
-        { vendor_name: 'Bu Ani', total_amount: 50000, item_count: 10 },
-    ],
-};
-
 export function ReportPage() {
-    const [report, setReport] = useState<DailyReportSummary>(DEMO_REPORT);
+    const [report, setReport] = useState<DailyReportSummary | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [selectedDate, setSelectedDate] = useState(() => {
+        return new Date().toISOString().split('T')[0];
+    });
 
     const fetchReport = useCallback(async () => {
-        setIsLoading(true);
-
-        // Simulate API call delay
-        await new Promise((resolve) => setTimeout(resolve, 500));
-
-        // In production, use:
-        // const report = await getDailyReport(new Date().toISOString().split('T')[0]);
-        // setReport(report);
-
-        // For demo, use static data
-        setReport({
-            ...DEMO_REPORT,
-            date: new Date().toISOString().split('T')[0],
-        });
-
-        setIsLoading(false);
-    }, []);
+        try {
+            setIsLoading(true);
+            setError(null);
+            const data = await getDailyReport(selectedDate);
+            setReport(data);
+        } catch (err) {
+            const errorMsg = err instanceof Error ? err.message : 'Failed to load report';
+            setError(errorMsg);
+            console.error('❌ Error loading report:', err);
+        } finally {
+            setIsLoading(false);
+        }
+    }, [selectedDate]);
 
     useEffect(() => {
         fetchReport();
     }, [fetchReport]);
 
+    const handleDateChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        setSelectedDate(e.target.value);
+    };
+
     return (
         <div className="min-h-screen py-6" style={{ backgroundColor: '#F9F7F5' }}>
-            <DailyReport
-                report={report}
-                onRefresh={fetchReport}
-                isLoading={isLoading}
-            />
+            <div className="max-w-2xl mx-auto p-4 space-y-4">
+                {error && (
+                    <div className="bg-red-100 border border-red-300 p-4 rounded-lg text-red-800">
+                        <p className="font-semibold">⚠️ Error: {error}</p>
+                    </div>
+                )}
+
+                {/* Date Picker */}
+                <div className="card">
+                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                        Pilih Tanggal Laporan
+                    </label>
+                    <input
+                        type="date"
+                        value={selectedDate}
+                        onChange={handleDateChange}
+                        className="w-full px-4 py-3 border border-slate-300 rounded-lg font-semibold text-lg"
+                    />
+                </div>
+
+                {isLoading ? (
+                    <div className="flex items-center justify-center h-64">
+                        <div className="text-center">
+                            <div className="text-6xl mb-4">🔄</div>
+                            <p className="text-lg font-semibold text-slate-600">Loading report...</p>
+                        </div>
+                    </div>
+                ) : report ? (
+                    <DailyReport
+                        report={report}
+                        onRefresh={fetchReport}
+                        isLoading={isLoading}
+                    />
+                ) : null}
+            </div>
         </div>
     );
 }

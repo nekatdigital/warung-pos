@@ -94,31 +94,31 @@ export function TabletLayout({
               <span className="text-xl font-semibold">Tidak ada produk</span>
             </div>
           ) : (
-            <div className="grid grid-cols-3 gap-4 pb-4">
+            <div className="grid grid-cols-2 gap-4 pb-4">
               {filteredProducts.map((product) => (
                 <button
                   key={product.id}
                   onClick={() => onAddToCart(product)}
-                  className="bg-white rounded-xl p-4 shadow-lg hover:shadow-xl transition-all hover:scale-105 active:scale-95 flex flex-col items-center text-center space-y-2"
+                  className="bg-white rounded-lg p-3 shadow-md hover:shadow-lg transition-all active:scale-95 flex flex-col items-center text-center space-y-2"
                 >
                   {/* Product Emoji */}
-                  <div className="w-24 h-24 rounded-full bg-gradient-to-br from-orange-50 to-yellow-50 flex items-center justify-center text-5xl shadow-md">
+                  <div className="w-20 h-20 rounded-lg bg-gradient-to-br from-orange-50 to-yellow-50 flex items-center justify-center text-4xl shadow-sm">
                     {product.emoji || '🍽️'}
                   </div>
 
                   {/* Product Name */}
-                  <p className="font-bold text-slate-800 text-base line-clamp-2">
+                  <p className="font-bold text-slate-800 text-sm line-clamp-2">
                     {product.name}
                   </p>
 
                   {/* Price */}
-                  <p className="text-orange-600 font-bold text-lg">
+                  <p className="text-orange-600 font-bold text-base">
                     Rp {product.price.toLocaleString('id-ID')}
                   </p>
 
                   {/* Product Type Badge */}
                   {product.product_type === 'CONSIGNMENT' && product.vendor_name && (
-                    <span className="badge-consignment">
+                    <span className="badge-consignment text-xs">
                       {product.vendor_name}
                     </span>
                   )}
