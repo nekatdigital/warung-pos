@@ -22,10 +22,10 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
 
     return (
         <>
-            <h1 className="text-4xl font-bold text-slate-700 px-4 pt-4 sm:text-3xl">📊 Laporan Hari Ini</h1>
+            <h1 className="text-4xl font-bold text-slate-700 px-4 pt-4 sm:text-2xl">📊 Laporan Hari Ini</h1>
             <div className="max-w-2xl mx-auto p-4 space-y-6">
                 {/* Date */}
-                <p className="text-slate-500 text-lg">
+                <p className="text-slate-500 text-lg mb-6">
                     {new Date(report.date).toLocaleDateString('id-ID', {
                         weekday: 'long',
                         year: 'numeric',
@@ -37,15 +37,15 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                 {/* Header */}
                 <div className="flex items-center justify-between">
                     <div />
-                    <div className="flex gap-2 flex-col sm:flex-row">
-                        <button
-                            onClick={onRefresh}
-                            disabled={isLoading}
-                            className="btn-secondary flex items-center gap-2 sm:bg-orange-100 bg-green-400"
-                        >
-                            <RefreshCw size={20} className={isLoading ? 'animate-spin' : ''} />
-                            Refresh
-                        </button>
+                    <button
+                        onClick={onRefresh}
+                        disabled={isLoading}
+                        className="btn-secondary flex items-center gap-2 sm:bg-orange-100 bg-green-400"
+                    >
+                        <RefreshCw size={20} className={isLoading ? 'animate-spin' : ''} />
+                        Refresh
+                    </button>
+                    <div className="flex gap-2 flex-col">
                         <button
                             onClick={handlePrint}
                             className="btn-secondary flex items-center gap-2 sm:bg-orange-100 bg-blue-300"
@@ -60,8 +60,8 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
             <div className="grid grid-cols-2 gap-4">
                 {/* Total Revenue */}
                 <div className="card text-white col-span-2" style={{ background: 'linear-gradient(to bottom right, #E05D34, #C84A24)' }}>
-                    <p className="text-black font-bold text-xl">💰 TOTAL UANG DI KASIR</p>
-                    <p className="text-5xl font-bold mt-2 text-black">
+                    <p className="text-black font-bold text-xl sm:text-xl text-lg">💰 TOTAL UANG DI KASIR</p>
+                    <p className="text-5xl font-bold mt-2 text-black sm:text-5xl text-3xl">
                         {formatCurrency(report.total_revenue)}
                     </p>
                     <p className="text-black font-semibold mt-2">
