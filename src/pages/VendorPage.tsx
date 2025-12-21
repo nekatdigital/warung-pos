@@ -166,14 +166,13 @@ export function VendorPage() {
           onDelete={handleDelete}
         />
 
-        {/* Form Modal */}
-        {isFormOpen && (
-          <VendorForm
-            vendor={selectedVendor}
-            onClose={handleFormClose}
-            onSave={handleFormSave}
-          />
-        )}
+        {/* Vendor Form Modal */}
+        <VendorForm
+          isOpen={isFormOpen}
+          onClose={handleFormClose}
+          onSave={handleFormSave}
+          initialData={selectedVendor}
+        />
       </div>
     </div>
   );
