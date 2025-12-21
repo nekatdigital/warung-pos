@@ -2,14 +2,16 @@ import { useState, useEffect } from 'react';
 import { ProductList } from '../components/products/ProductList';
 import { ProductForm } from '../components/products/ProductForm';
 import { ProductFilters } from '../components/products/ProductFilters';
-import { getProducts, getCategories } from '../services/data';
-import type { Product, Category } from '../types';
+import { getProducts, getCategories, getVendors, createProduct, updateProduct, deleteProduct } from '../services/data';
+import type { Product, Category, Vendor } from '../types';
 
 export function ProductPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
+  const [vendors, setVendors] = useState<Vendor[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [filterCategory, setFilterCategory] = useState<string | null>(null);
