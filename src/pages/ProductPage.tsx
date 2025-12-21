@@ -27,12 +27,15 @@ export function ProductPage() {
     try {
       setIsLoading(true);
       setError(null);
-      const [prods, cats] = await Promise.all([
+      setSuccessMessage(null);
+      const [prods, cats, vends] = await Promise.all([
         getProducts(),
         getCategories(),
+        getVendors(),
       ]);
       setProducts(prods);
       setCategories(cats);
+      setVendors(vends);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to load data';
       setError(errorMsg);
