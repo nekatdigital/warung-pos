@@ -21,45 +21,47 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
     const vendorOwed = report.consignment_total;
 
     return (
-        <div className="max-w-2xl mx-auto p-4 space-y-6">
-            {/* Header */}
-            <div className="flex items-center justify-between">
-                <div>
-                    <h1 className="text-3xl font-bold text-slate-800">📊 Laporan Hari Ini</h1>
-                    <p className="text-slate-500 text-lg">
-                        {new Date(report.date).toLocaleDateString('id-ID', {
-                            weekday: 'long',
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric',
-                        })}
-                    </p>
-                </div>
-                <div className="flex gap-2">
+        <>
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-700 px-4 pt-4">📊 Laporan Hari Ini</h1>
+            <div className="max-w-2xl mx-auto p-4 space-y-6">
+                {/* Date */}
+                <p className="text-slate-500 text-lg mb-6">
+                    {new Date(report.date).toLocaleDateString('id-ID', {
+                        weekday: 'long',
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric',
+                    })}
+                </p>
+
+                {/* Header */}
+                <div className="flex items-center justify-between">
+                    <div />
                     <button
                         onClick={onRefresh}
                         disabled={isLoading}
-                        className="btn-secondary flex items-center gap-2"
+                        className="btn-secondary flex items-center gap-2 sm:bg-orange-100 bg-green-400"
                     >
                         <RefreshCw size={20} className={isLoading ? 'animate-spin' : ''} />
                         Refresh
                     </button>
-                    <button
-                        onClick={handlePrint}
-                        className="btn-secondary flex items-center gap-2"
-                    >
-                        <Printer size={20} />
-                        Cetak
-                    </button>
+                    <div className="flex gap-2 flex-col">
+                        <button
+                            onClick={handlePrint}
+                            className="btn-secondary flex items-center gap-2 sm:bg-orange-100 bg-blue-300"
+                        >
+                            <Printer size={20} />
+                            Cetak
+                        </button>
+                    </div>
                 </div>
-            </div>
 
             {/* Main Stats Cards */}
             <div className="grid grid-cols-2 gap-4">
                 {/* Total Revenue */}
                 <div className="card text-white col-span-2" style={{ background: 'linear-gradient(to bottom right, #E05D34, #C84A24)' }}>
-                    <p className="text-black font-bold text-xl">💰 TOTAL UANG DI KASIR</p>
-                    <p className="text-5xl font-bold mt-2 text-black">
+                    <p className="text-black font-bold text-xl sm:text-xl text-lg">💰 TOTAL UANG DI KASIR</p>
+                    <p className="text-5xl font-bold mt-2 text-black sm:text-5xl text-3xl">
                         {formatCurrency(report.total_revenue)}
                     </p>
                     <p className="text-black font-semibold mt-2">
@@ -170,6 +172,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
                     <p className="text-slate-400">Mulai dari halaman Kasir</p>
                 </div>
             )}
-        </div>
+            </div>
+        </>
     );
 }
