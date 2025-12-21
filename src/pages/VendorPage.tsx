@@ -22,8 +22,13 @@ export function VendorPage() {
     try {
       setIsLoading(true);
       setError(null);
-      const vends = await getVendors();
+      setSuccessMessage(null);
+      const [vends, prods] = await Promise.all([
+        getVendors(),
+        getProducts(),
+      ]);
       setVendors(vends);
+      setProducts(prods);
     } catch (err) {
       const errorMsg = err instanceof Error ? err.message : 'Failed to load vendors';
       setError(errorMsg);
