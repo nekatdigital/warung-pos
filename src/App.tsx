@@ -41,6 +41,23 @@ function Navigation({ itemCount, onCartClick, onLogout }: { itemCount: number; o
                 <span className="text-sm md:text-base">Kasir</span>
               </NavLink>
 
+              <button
+                onClick={onCartClick}
+                className={`flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors relative md:bg-white md:hover:bg-white ${
+                  itemCount > 0
+                    ? 'bg-orange-100 text-orange-700'
+                    : 'text-slate-600 bg-slate-100 md:bg-white md:text-slate-600'
+                }`}
+              >
+                <ShoppingCart size={24} />
+                {itemCount > 0 && (
+                  <span className="absolute -top-2 -right-2 w-6 h-6 bg-red-500 text-white rounded-full text-xs font-bold flex items-center justify-center">
+                    {itemCount}
+                  </span>
+                )}
+                <span className="text-sm md:text-base">Pesanan</span>
+              </button>
+
               <NavLink
                 to="/laporan"
                 className={({ isActive }) =>
