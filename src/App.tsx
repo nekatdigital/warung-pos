@@ -2,8 +2,10 @@ import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TransactionPage } from './pages/TransactionPage';
 import { ReportPage } from './pages/ReportPage';
+import { ProductPage } from './pages/ProductPage';
+import { VendorPage } from './pages/VendorPage';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { ShoppingCart, BarChart3, Settings, LogOut, User } from 'lucide-react';
+import { ShoppingCart, BarChart3, Settings, LogOut, User, Package, Users } from 'lucide-react';
 import { authService } from './services/storage';
 
 // Import POS styles
