@@ -313,6 +313,8 @@ function App() {
             {/* Route '/' menggunakan TransactionPage yang baru (Adaptive Layout) */}
             <Route path="/" element={<TransactionPage isCartSheetOpen={isCartSheetOpen} onCartSheetOpenChange={setIsCartSheetOpen} />} />
             <Route path="/laporan" element={<ReportPage />} />
+            <Route path="/produk" element={<ProductPage />} />
+            <Route path="/vendor" element={<VendorPage />} />
             <Route path="/pengaturan" element={<SettingsPage />} />
           </Routes>
         </div>
