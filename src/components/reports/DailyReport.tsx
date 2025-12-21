@@ -22,7 +22,7 @@ export function DailyReport({ report, onRefresh, isLoading }: DailyReportProps) 
 
     return (
         <>
-            <h1 className="text-4xl font-bold text-slate-700 px-4 pt-4 sm:text-2xl">📊 Laporan Hari Ini</h1>
+            <h1 className="text-3xl sm:text-4xl font-bold text-slate-700 px-4 pt-4">📊 Laporan Hari Ini</h1>
             <div className="max-w-2xl mx-auto p-4 space-y-6">
                 {/* Date */}
                 <p className="text-slate-500 text-lg mb-6">
