@@ -1,13 +1,15 @@
 import { useState, useEffect } from 'react';
 import { VendorList } from '../components/vendors/VendorList';
 import { VendorForm } from '../components/vendors/VendorForm';
-import { getVendors } from '../services/data';
-import type { Vendor } from '../types';
+import { getVendors, createVendor, updateVendor, deleteVendor, getProducts } from '../services/data';
+import type { Vendor, Product } from '../types';
 
 export function VendorPage() {
   const [vendors, setVendors] = useState<Vendor[]>([]);
+  const [products, setProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [selectedVendor, setSelectedVendor] = useState<Vendor | null>(null);
 
