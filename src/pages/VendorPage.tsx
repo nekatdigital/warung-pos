@@ -53,20 +53,70 @@ export function VendorPage() {
     setSelectedVendor(null);
   };
 
-  const handleFormSave = async () => {
-    await loadData();
-    handleFormClose();
+  const handleFormSave = async (vendor: Vendor) => {
+    try {
+      setError(null);
+
+      if (selectedVendor) {
+        // Edit mode - update existing vendor
+        const updated = await updateVendor(selectedVendor.id, vendor);
+        if (updated) {
+          setSuccessMessage(`✅ Vendor "${vendor.name}" berhasil diperbarui`);
+        }
+      } else {
+        // Add mode - create new vendor
+        const created = await createVendor(vendor.name, vendor.phone);
+        if (created) {
+          setSuccessMessage(`✅ Vendor "${vendor.name}" berhasil ditambahkan`);
+        }
+      }
+
+      // Reload data and close form
+      await loadData();
+      handleFormClose();
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Gagal menyimpan vendor';
+      setError(errorMsg);
+      console.error('❌ Error saving vendor:', err);
+    }
   };
 
   const handleDelete = async (vendor: Vendor) => {
-    if (confirm(`Hapus vendor "${vendor.name}"?`)) {
-      try {
-        // Delete logic will be here
-        setError('Delete functionality coming soon');
-      } catch (err) {
-        const errorMsg = err instanceof Error ? err.message : 'Failed to delete vendor';
-        setError(errorMsg);
+    // Check if vendor has active products
+    const vendorProducts = products.filter(
+      (p) => p.vendor_id === vendor.id && p.is_active
+    );
+
+    if (vendorProducts.length > 0) {
+      setError(
+        `❌ Tidak bisa menghapus vendor karena masih memiliki ${vendorProducts.length} produk aktif. Silakan edit produk terlebih dahulu.`
+      );
+      return;
+    }
+
+    const confirmDelete = confirm(
+      `Hapus vendor "${vendor.name}"?\n\nTindakan ini tidak dapat dibatalkan.`
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      setError(null);
+      const deleted = await deleteVendor(vendor.id);
+      if (deleted) {
+        setSuccessMessage(`✅ Vendor "${vendor.name}" berhasil dihapus`);
+        await loadData();
+
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccessMessage(null), 3000);
       }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to delete vendor';
+      setError(errorMsg);
+      console.error('❌ Error deleting vendor:', err);
     }
   };
 
