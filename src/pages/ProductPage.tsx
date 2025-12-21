@@ -193,15 +193,15 @@ export function ProductPage() {
           />
         </div>
 
-        {/* Form Modal */}
-        {isFormOpen && (
-          <ProductForm
-            product={selectedProduct}
-            categories={categories}
-            onClose={handleFormClose}
-            onSave={handleFormSave}
-          />
-        )}
+        {/* Product Form Modal */}
+        <ProductForm
+          isOpen={isFormOpen}
+          onClose={handleFormClose}
+          onSave={handleFormSave}
+          initialData={selectedProduct}
+          categories={categories}
+          vendors={vendors}
+        />
       </div>
     </div>
   );
