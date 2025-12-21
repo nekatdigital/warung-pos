@@ -60,20 +60,66 @@ export function ProductPage() {
     setSelectedProduct(null);
   };
 
-  const handleFormSave = async () => {
-    await loadData();
-    handleFormClose();
+  const handleFormSave = async (product: Product) => {
+    try {
+      setError(null);
+
+      if (selectedProduct) {
+        // Edit mode - update existing product
+        const updated = await updateProduct(selectedProduct.id, product);
+        if (updated) {
+          setSuccessMessage(`✅ Produk "${product.name}" berhasil diperbarui`);
+        }
+      } else {
+        // Add mode - create new product
+        const created = await createProduct({
+          name: product.name,
+          price: product.price,
+          emoji: product.emoji,
+          product_type: product.product_type,
+          category_id: product.category_id,
+          vendor_id: product.vendor_id,
+          is_active: product.is_active,
+        });
+        if (created) {
+          setSuccessMessage(`✅ Produk "${product.name}" berhasil ditambahkan`);
+        }
+      }
+
+      // Reload data and close form
+      await loadData();
+      handleFormClose();
+
+      // Clear success message after 3 seconds
+      setTimeout(() => setSuccessMessage(null), 3000);
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Gagal menyimpan produk';
+      setError(errorMsg);
+      console.error('❌ Error saving product:', err);
+    }
   };
 
   const handleDelete = async (product: Product) => {
-    if (confirm(`Hapus produk "${product.name}"?`)) {
-      try {
-        // Delete logic will be here
-        setError('Delete functionality coming soon');
-      } catch (err) {
-        const errorMsg = err instanceof Error ? err.message : 'Failed to delete product';
-        setError(errorMsg);
+    const confirmDelete = confirm(
+      `Hapus produk "${product.name}"?\n\nProduk akan dinonaktifkan dan tidak akan muncul di kasir.`
+    );
+
+    if (!confirmDelete) return;
+
+    try {
+      setError(null);
+      const deleted = await deleteProduct(product.id);
+      if (deleted) {
+        setSuccessMessage(`✅ Produk "${product.name}" berhasil dihapus`);
+        await loadData();
+
+        // Clear success message after 3 seconds
+        setTimeout(() => setSuccessMessage(null), 3000);
       }
+    } catch (err) {
+      const errorMsg = err instanceof Error ? err.message : 'Failed to delete product';
+      setError(errorMsg);
+      console.error('❌ Error deleting product:', err);
     }
   };
 
