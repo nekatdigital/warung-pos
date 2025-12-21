@@ -134,9 +134,17 @@ export function VendorPage() {
   return (
     <div className="min-h-screen py-6" style={{ backgroundColor: '#F9F7F5' }}>
       <div className="max-w-2xl mx-auto px-4 space-y-4">
+        {/* Error Message */}
         {error && (
-          <div className="bg-red-100 border border-red-300 p-4 rounded-lg text-red-800">
-            <p className="font-semibold">⚠️ Error: {error}</p>
+          <div className="bg-red-100 border border-red-300 p-4 rounded-lg text-red-800 animate-in fade-in">
+            <p className="font-semibold">{error}</p>
+          </div>
+        )}
+
+        {/* Success Message */}
+        {successMessage && (
+          <div className="bg-green-100 border border-green-300 p-4 rounded-lg text-green-800 animate-in fade-in">
+            <p className="font-semibold">{successMessage}</p>
           </div>
         )}
 
