@@ -57,6 +57,32 @@ function Navigation({ itemCount, onCartClick, onLogout }: { itemCount: number; o
               </NavLink>
 
               <NavLink
+                to="/produk"
+                className={({ isActive }) =>
+                  `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
+                    ? 'bg-orange-100 text-orange-700'
+                    : 'text-slate-600 hover:bg-slate-100'
+                  }`
+                }
+              >
+                <Package size={24} />
+                <span className="text-sm md:text-base">Produk</span>
+              </NavLink>
+
+              <NavLink
+                to="/vendor"
+                className={({ isActive }) =>
+                  `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
+                    ? 'bg-orange-100 text-orange-700'
+                    : 'text-slate-600 hover:bg-slate-100'
+                  }`
+                }
+              >
+                <Users size={24} />
+                <span className="text-sm md:text-base">Vendor</span>
+              </NavLink>
+
+              <NavLink
                 to="/pengaturan"
                 className={({ isActive }) =>
                   `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
