@@ -78,7 +78,13 @@ export async function initializeDatabase() {
       console.log('✅ Database initialized with demo data');
     }
   } catch (error) {
-    console.error('❌ Error initializing database:', error);
+    if (import.meta.env.DEV) {
+      // Log detailed error in development for debugging
+      console.error('❌ Error initializing database:', error);
+    } else {
+      // Log generic error in production to avoid leaking sensitive info
+      console.error('❌ An error occurred during database initialization.');
+    }
     throw error;
   }
 }
@@ -91,7 +97,13 @@ export async function clearDatabase() {
     await db.delete();
     console.log('✅ Database cleared');
   } catch (error) {
-    console.error('❌ Error clearing database:', error);
+    if (import.meta.env.DEV) {
+      // Log detailed error in development for debugging
+      console.error('❌ Error clearing database:', error);
+    } else {
+      // Log generic error in production to avoid leaking sensitive info
+      console.error('❌ An error occurred while clearing the database.');
+    }
     throw error;
   }
 }
