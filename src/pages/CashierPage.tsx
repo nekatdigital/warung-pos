@@ -30,8 +30,7 @@ export function CashierPage() {
             setProducts(prods);
             setCategories(cats);
         } catch (err) {
-            const errorMsg = err instanceof Error ? err.message : 'Failed to load data';
-            setError(errorMsg);
+            setError('An error occurred while loading data.');
             console.error('❌ Error loading data:', err);
         } finally {
             setIsLoading(false);
@@ -135,8 +134,7 @@ export function CashierPage() {
             setIsPaymentOpen(false);
             setError(null);
         } catch (err) {
-            const errorMsg = err instanceof Error ? err.message : 'Gagal memproses pembayaran';
-            setError(errorMsg);
+            setError('An error occurred during payment processing.');
             console.error('❌ Payment error:', err);
         }
     };
