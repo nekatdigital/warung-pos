@@ -130,6 +130,39 @@ export async function createVendor(name: string, phone?: string): Promise<Vendor
   }
 }
 
+export async function updateVendor(id: string, vendor: Partial<Vendor>): Promise<Vendor | null> {
+  try {
+    await db.vendors.update(id, vendor);
+    console.log('✅ Vendor updated:', id);
+    const updated = await db.vendors.get(id);
+    return updated || null;
+  } catch (error) {
+    console.error('❌ Error updating vendor:', error);
+    return null;
+  }
+}
+
+export async function deleteVendor(id: string): Promise<boolean> {
+  try {
+    await db.vendors.delete(id);
+    console.log('✅ Vendor deleted:', id);
+    return true;
+  } catch (error) {
+    console.error('❌ Error deleting vendor:', error);
+    return false;
+  }
+}
+
+export async function getProductsByVendor(vendorId: string): Promise<Product[]> {
+  try {
+    const products = await db.products.where('vendor_id').equals(vendorId).toArray();
+    return products.filter((p: Product) => p.is_active === true);
+  } catch (error) {
+    console.error('❌ Error fetching vendor products:', error);
+    return [];
+  }
+}
+
 // ==================== ORDERS ====================
 
 export async function createOrder(

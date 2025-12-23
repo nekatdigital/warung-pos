@@ -2,8 +2,10 @@ import { BrowserRouter, Routes, Route, NavLink } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import { TransactionPage } from './pages/TransactionPage';
 import { ReportPage } from './pages/ReportPage';
+import { ProductPage } from './pages/ProductPage';
+import { VendorPage } from './pages/VendorPage';
 import { ErrorBoundary } from './components/ErrorBoundary';
-import { ShoppingCart, BarChart3, Settings, LogOut, User } from 'lucide-react';
+import { ShoppingCart, BarChart3, Settings, LogOut, User, Package, Users } from 'lucide-react';
 import { authService } from './services/storage';
 
 // Import POS styles
@@ -52,6 +54,32 @@ function Navigation({ itemCount, onCartClick, onLogout }: { itemCount: number; o
               >
                 <BarChart3 size={24} />
                 <span className="text-sm md:text-base">Laporan</span>
+              </NavLink>
+
+              <NavLink
+                to="/produk"
+                className={({ isActive }) =>
+                  `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
+                    ? 'bg-orange-100 text-orange-700'
+                    : 'text-slate-600 hover:bg-slate-100'
+                  }`
+                }
+              >
+                <Package size={24} />
+                <span className="text-sm md:text-base">Produk</span>
+              </NavLink>
+
+              <NavLink
+                to="/vendor"
+                className={({ isActive }) =>
+                  `flex flex-col md:flex-row items-center gap-1 md:gap-2 px-4 py-2 rounded-xl font-semibold transition-colors ${isActive
+                    ? 'bg-orange-100 text-orange-700'
+                    : 'text-slate-600 hover:bg-slate-100'
+                  }`
+                }
+              >
+                <Users size={24} />
+                <span className="text-sm md:text-base">Vendor</span>
               </NavLink>
 
               <NavLink
@@ -285,6 +313,8 @@ function App() {
             {/* Route '/' menggunakan TransactionPage yang baru (Adaptive Layout) */}
             <Route path="/" element={<TransactionPage isCartSheetOpen={isCartSheetOpen} onCartSheetOpenChange={setIsCartSheetOpen} />} />
             <Route path="/laporan" element={<ReportPage />} />
+            <Route path="/produk" element={<ProductPage />} />
+            <Route path="/vendor" element={<VendorPage />} />
             <Route path="/pengaturan" element={<SettingsPage />} />
           </Routes>
         </div>
