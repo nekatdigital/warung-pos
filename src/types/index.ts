@@ -52,6 +52,15 @@ export interface OrderItem {
     created_at: string;
 }
 
+// Input data for validation
+export interface ProductInput {
+    name: string;
+    price: number;
+    product_type: ProductType;
+    vendor_id?: string;
+    category_id?: string;
+}
+
 // Cart (Frontend State)
 export interface CartItem extends Omit<Product, 'is_active' | 'created_at'> {
     quantity: number;

@@ -1,3 +1,5 @@
+import { ProductInput } from '../types';
+
 /**
  * Validation Utilities
  * Provides input validation and error handling
@@ -11,7 +13,7 @@ export interface ValidationError {
 /**
  * Validate product input
  */
-export function validateProduct(data: any): ValidationError[] {
+export function validateProduct(data: ProductInput): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
