@@ -1,3 +1,5 @@
+import type { Product, Category, Vendor, Order, OrderItem } from "../types";
+
 /**
  * Validation Utilities
  * Provides input validation and error handling
@@ -11,7 +13,7 @@ export interface ValidationError {
 /**
  * Validate product input
  */
-export function validateProduct(data: any): ValidationError[] {
+export function validateProduct(data: Partial<Product>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -36,7 +38,7 @@ export function validateProduct(data: any): ValidationError[] {
 /**
  * Validate category input
  */
-export function validateCategory(data: any): ValidationError[] {
+export function validateCategory(data: Partial<Category>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -49,7 +51,7 @@ export function validateCategory(data: any): ValidationError[] {
 /**
  * Validate vendor input
  */
-export function validateVendor(data: any): ValidationError[] {
+export function validateVendor(data: Partial<Vendor>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -89,7 +91,7 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: Partial<Order & { items: OrderItem[] }>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
