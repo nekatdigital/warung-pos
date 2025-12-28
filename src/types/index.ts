@@ -39,6 +39,10 @@ export interface Order {
     created_at: string;
 }
 
+export interface OrderWithItems extends Order {
+    items: OrderItem[];
+}
+
 export interface OrderItem {
     id: string;
     order_id: string;
