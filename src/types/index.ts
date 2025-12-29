@@ -57,6 +57,11 @@ export interface CartItem extends Omit<Product, 'is_active' | 'created_at'> {
     quantity: number;
 }
 
+// Payload for order validation
+export interface OrderWithItems extends Partial<Order> {
+    items: CartItem[];
+}
+
 // Daily Report
 export interface DailyReportSummary {
     date: string;
