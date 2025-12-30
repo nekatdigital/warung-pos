@@ -3,6 +3,8 @@
  * Provides input validation and error handling
  */
 
+import type { OrderWithItems } from '../types';
+
 export interface ValidationError {
   field: string;
   message: string;
@@ -89,7 +91,7 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: OrderWithItems): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
@@ -98,6 +100,21 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    data.items.forEach((item, index) => {
+      if (!item.id || typeof item.id !== 'string') {
+        errors.push({ field: `items[${index}].id`, message: 'Product ID is invalid' });
+      }
+      if (!item.name || typeof item.name !== 'string') {
+        errors.push({ field: `items[${index}].name`, message: 'Product name is required' });
+      }
+      if (typeof item.unit_price !== 'number' || item.unit_price <= 0) {
+        errors.push({ field: `items[${index}].unit_price`, message: 'Unit price must be greater than 0' });
+      }
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be greater than 0' });
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {

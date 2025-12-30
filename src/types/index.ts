@@ -57,6 +57,11 @@ export interface CartItem extends Omit<Product, 'is_active' | 'created_at'> {
     quantity: number;
 }
 
+// Data structure for validating a new order payload
+export type OrderWithItems = Omit<Order, 'id' | 'order_date' | 'created_at' | 'change_amount'> & {
+    items: CartItem[];
+};
+
 // Daily Report
 export interface DailyReportSummary {
     date: string;
