@@ -2,6 +2,7 @@
  * Validation Utilities
  * Provides input validation and error handling
  */
+import type { OrderItem } from '../types';
 
 export interface ValidationError {
   field: string;
@@ -28,6 +29,28 @@ export function validateProduct(data: any): ValidationError[] {
 
   if (data.product_type === 'CONSIGNMENT' && !data.vendor_id) {
     errors.push({ field: 'vendor_id', message: 'Vendor is required for consignment products' });
+  }
+
+  return errors;
+}
+
+/**
+ * Validate a single order item
+ */
+export function validateOrderItem(item: OrderItem, index: number): ValidationError[] {
+  const errors: ValidationError[] = [];
+  const prefix = `items[${index}]`;
+
+  if (!item.product_id || typeof item.product_id !== 'string') {
+    errors.push({ field: `${prefix}.product_id`, message: 'Product ID is required' });
+  }
+
+  if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+    errors.push({ field: `${prefix}.quantity`, message: 'Quantity must be a positive number' });
+  }
+
+  if (typeof item.unit_price !== 'number' || item.unit_price < 0) {
+    errors.push({ field: `${prefix}.unit_price`, message: 'Unit price cannot be negative' });
   }
 
   return errors;
@@ -96,7 +119,14 @@ export function validateOrder(data: any): ValidationError[] {
     errors.push({ field: 'total_amount', message: 'Order total must be greater than 0' });
   }
 
-  if (!Array.isArray(data.items) || data.items.length === 0) {
+  if (Array.isArray(data.items) && data.items.length > 0) {
+    // Note: The 'items' in the order payload might be CartItem[], not OrderItem[].
+    // We'll validate the common fields for now. A more robust solution might involve a
+    // specific type for order creation payloads.
+    data.items.forEach((item: any, index: number) => {
+      errors.push(...validateOrderItem(item, index));
+    });
+  } else {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
   }
 
