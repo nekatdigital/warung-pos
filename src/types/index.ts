@@ -80,3 +80,16 @@ export interface PaymentState {
     cashReceived: number;
     change: number;
 }
+
+// Data Payloads / Transient State
+export interface OrderItemPayload {
+  product_id: string;
+  quantity: number;
+  price: number;
+}
+
+export interface OrderWithItems {
+    total_amount: number;
+    items: OrderItemPayload[];
+    cash_received?: number;
+}

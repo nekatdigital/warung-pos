@@ -2,6 +2,7 @@
  * Validation Utilities
  * Provides input validation and error handling
  */
+import type { OrderWithItems, OrderItemPayload } from '../types';
 
 export interface ValidationError {
   field: string;
@@ -89,14 +90,26 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: OrderWithItems): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
     errors.push({ field: 'total_amount', message: 'Order total must be greater than 0' });
   }
 
-  if (!Array.isArray(data.items) || data.items.length === 0) {
+  if (Array.isArray(data.items) && data.items.length > 0) {
+    data.items.forEach((item: OrderItemPayload, index: number) => {
+      if (!item.product_id || typeof item.product_id !== 'string') {
+        errors.push({ field: `items[${index}].product_id`, message: 'Product ID is required' });
+      }
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be a positive number' });
+      }
+      if (typeof item.price !== 'number' || item.price < 0) {
+        errors.push({ field: `items[${index}].price`, message: 'Price must be a non-negative number' });
+      }
+    });
+  } else {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
   }
 
