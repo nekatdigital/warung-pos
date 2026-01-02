@@ -80,3 +80,26 @@ export interface PaymentState {
     cashReceived: number;
     change: number;
 }
+
+// Validation Payloads
+export interface ProductPayload {
+    name: string;
+    price: number;
+    product_type: ProductType;
+    vendor_id?: string;
+}
+
+export interface CategoryPayload {
+    name: string;
+}
+
+export interface VendorPayload {
+    name: string;
+    phone?: string;
+}
+
+export interface OrderPayload {
+    total_amount: number;
+    items: CartItem[];
+    cash_received?: number;
+}
