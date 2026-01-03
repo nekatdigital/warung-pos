@@ -1,3 +1,5 @@
+import type { CategoryPayload, OrderPayload, ProductPayload, VendorPayload } from '../types';
+
 /**
  * Validation Utilities
  * Provides input validation and error handling
@@ -11,7 +13,7 @@ export interface ValidationError {
 /**
  * Validate product input
  */
-export function validateProduct(data: any): ValidationError[] {
+export function validateProduct(data: ProductPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -36,7 +38,7 @@ export function validateProduct(data: any): ValidationError[] {
 /**
  * Validate category input
  */
-export function validateCategory(data: any): ValidationError[] {
+export function validateCategory(data: CategoryPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -49,7 +51,7 @@ export function validateCategory(data: any): ValidationError[] {
 /**
  * Validate vendor input
  */
-export function validateVendor(data: any): ValidationError[] {
+export function validateVendor(data: VendorPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -89,7 +91,7 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: OrderPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
@@ -98,6 +100,13 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    // Deep validation for each item in the order
+    data.items.forEach((item, index) => {
+      if (!item.product_name || item.quantity <= 0 || item.unit_price <= 0) {
+        errors.push({ field: `items[${index}]`, message: 'Invalid item data' });
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
@@ -131,7 +140,7 @@ export function getFieldError(errors: ValidationError[], field: string): string 
 /**
  * Safe number parsing
  */
-export function parseNumber(value: any, defaultValue: number = 0): number {
+export function parseNumber(value: unknown, defaultValue: number = 0): number {
   const num = Number(value);
   return Number.isFinite(num) ? num : defaultValue;
 }
@@ -139,7 +148,7 @@ export function parseNumber(value: any, defaultValue: number = 0): number {
 /**
  * Safe string parsing
  */
-export function parseString(value: any, defaultValue: string = ''): string {
+export function parseString(value: unknown, defaultValue: string = ''): string {
   return typeof value === 'string' ? value.trim() : defaultValue;
 }
 
