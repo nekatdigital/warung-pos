@@ -80,3 +80,26 @@ export interface PaymentState {
     cashReceived: number;
     change: number;
 }
+
+// Input Validation Types
+export interface ProductInput {
+    name?: string;
+    price?: number;
+    product_type?: ProductType;
+    vendor_id?: string;
+}
+
+export interface CategoryInput {
+    name?: string;
+}
+
+export interface VendorInput {
+    name?: string;
+    phone?: string;
+}
+
+export interface OrderInput {
+    total_amount?: number;
+    cash_received?: number;
+    items?: unknown[];
+}
