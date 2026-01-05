@@ -3,6 +3,8 @@
  * Provides input validation and error handling
  */
 
+import type { OrderPayload } from '../types';
+
 export interface ValidationError {
   field: string;
   message: string;
@@ -89,7 +91,7 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: OrderPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
