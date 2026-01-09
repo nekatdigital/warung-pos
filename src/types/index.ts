@@ -52,6 +52,24 @@ export interface OrderItem {
     created_at: string;
 }
 
+// Payloads
+export type OrderItemPayload = {
+    product_id?: string;
+    product_name: string;
+    unit_price: number;
+    quantity: number;
+    subtotal: number;
+    product_type: ProductType;
+    vendor_name?: string;
+};
+
+export type OrderPayload = {
+    total_amount: number;
+    cash_received?: number;
+    change_amount?: number;
+    items: OrderItemPayload[];
+};
+
 // Cart (Frontend State)
 export interface CartItem extends Omit<Product, 'is_active' | 'created_at'> {
     quantity: number;
