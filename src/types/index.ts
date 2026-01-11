@@ -37,10 +37,19 @@ export interface Order {
     change_amount?: number;
     order_date: string;
     created_at: string;
+    items: OrderItemPayload[]; // For payload validation
+}
+
+export interface OrderItemPayload {
+    product_id: string;
+    product_name: string;
+    unit_price: number;
+    quantity: number;
+    subtotal: number;
 }
 
 export interface OrderItem {
-    id: string;
+    id:string;
     order_id: string;
     product_id?: string;
     product_name: string;
