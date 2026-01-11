@@ -2,6 +2,7 @@
  * Validation Utilities
  * Provides input validation and error handling
  */
+import type { OrderItemPayload } from '../types';
 
 export interface ValidationError {
   field: string;
@@ -98,6 +99,23 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    data.items.forEach((item: OrderItemPayload, index: number) => {
+      if (!item.product_id || typeof item.product_id !== 'string') {
+        errors.push({ field: `items[${index}].product_id`, message: 'Product ID is required' });
+      }
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be a positive number' });
+      }
+      if (typeof item.unit_price !== 'number' || item.unit_price < 0) {
+        errors.push({ field: `items[${index}].unit_price`, message: 'Unit price must be a non-negative number' });
+      }
+      // Security: Ensure subtotal is not manipulated client-side
+      const expectedSubtotal = (item.unit_price || 0) * (item.quantity || 0);
+      if (typeof item.subtotal !== 'number' || item.subtotal !== expectedSubtotal) {
+        errors.push({ field: `items[${index}].subtotal`, message: `Subtotal must be unit_price * quantity` });
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
