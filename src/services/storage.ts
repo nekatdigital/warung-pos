@@ -94,9 +94,19 @@ export const authService = {
   // Login user (create mock auth)
   login(username: string, password: string): User | null {
     try {
-      // Mock authentication - in production, validate against backend
+      // 🛡️ Sentinel: Securely validate credentials against environment variables
+      const demoUsername = import.meta.env.VITE_DEMO_USERNAME;
+      const demoPassword = import.meta.env.VITE_DEMO_PASSWORD;
+
       if (!username || !password) {
-        throw new Error('Username and password required');
+        throw new Error('Username and password are required');
+      }
+
+      // Mock authentication against secure environment variables
+      if (username !== demoUsername || password !== demoPassword) {
+        // 🛡️ Sentinel: Generic error message to prevent user enumeration
+        console.warn('Authentication failed: Invalid credentials');
+        return null;
       }
 
       // Generate mock token (in production, get from backend)
