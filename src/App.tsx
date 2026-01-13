@@ -121,8 +121,8 @@ function Navigation({ itemCount, onCartClick, onLogout }: { itemCount: number; o
 }
 
 function LoginPage({ onLoginSuccess }: { onLoginSuccess: () => void }) {
-  const [username, setUsername] = useState('kasir');
-  const [password, setPassword] = useState('1234');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
@@ -172,7 +172,6 @@ function LoginPage({ onLoginSuccess }: { onLoginSuccess: () => void }) {
               placeholder="Masukkan username"
               className="w-full px-4 py-3 border border-slate-300 rounded-lg font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
-            <p className="text-xs text-slate-500 mt-1">Demo: kasir</p>
           </div>
 
           <div>
@@ -186,7 +185,6 @@ function LoginPage({ onLoginSuccess }: { onLoginSuccess: () => void }) {
               placeholder="Masukkan password"
               className="w-full px-4 py-3 border border-slate-300 rounded-lg font-semibold text-lg focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
-            <p className="text-xs text-slate-500 mt-1">Demo: 1234</p>
           </div>
 
           <button
@@ -199,7 +197,7 @@ function LoginPage({ onLoginSuccess }: { onLoginSuccess: () => void }) {
         </form>
 
         <p className="text-center text-sm text-slate-500 mt-6">
-          💡 Gunakan demo credentials untuk testing
+          🛡️ Sentinel: Login securely.
         </p>
       </div>
     </div>
