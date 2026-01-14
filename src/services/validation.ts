@@ -1,3 +1,5 @@
+import type { OrderItemPayload, OrderPayload } from '../types';
+
 /**
  * Validation Utilities
  * Provides input validation and error handling
@@ -87,17 +89,55 @@ export function validatePayment(
 }
 
 /**
+ * Validate a single order item
+ */
+export function validateOrderItem(item: OrderItemPayload, index: number): ValidationError[] {
+  const errors: ValidationError[] = [];
+  const fieldPrefix = `items[${index}]`;
+
+  if (!item.product_name || typeof item.product_name !== 'string') {
+    errors.push({ field: `${fieldPrefix}.product_name`, message: 'Product name is required' });
+  }
+
+  if (typeof item.quantity !== 'number' || !Number.isInteger(item.quantity) || item.quantity <= 0) {
+    errors.push({ field: `${fieldPrefix}.quantity`, message: 'Quantity must be a positive integer' });
+  }
+
+  if (typeof item.unit_price !== 'number' || item.unit_price < 0) {
+    errors.push({ field: `${fieldPrefix}.unit_price`, message: 'Unit price cannot be negative' });
+  }
+
+  // Security check: ensure subtotal matches calculation to prevent tampering
+  const expectedSubtotal = (item.unit_price || 0) * (item.quantity || 0);
+  if (typeof item.subtotal !== 'number' || item.subtotal < 0 || item.subtotal !== expectedSubtotal) {
+    errors.push({ field: `${fieldPrefix}.subtotal`, message: 'Subtotal is invalid or tampered' });
+  }
+
+  return errors;
+}
+
+/**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: OrderPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
     errors.push({ field: 'total_amount', message: 'Order total must be greater than 0' });
   }
 
-  if (!Array.isArray(data.items) || data.items.length === 0) {
+  if (Array.isArray(data.items) && data.items.length > 0) {
+    data.items.forEach((item, index) => {
+      errors.push(...validateOrderItem(item, index));
+    });
+  } else {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  }
+
+  // Security check: Recalculate and verify total amount to prevent tampering
+  const calculatedTotal = data.items.reduce((acc, item) => acc + (item.subtotal || 0), 0);
+  if (data.total_amount !== calculatedTotal) {
+    errors.push({ field: 'total_amount', message: 'Order total does not match item subtotals' });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
