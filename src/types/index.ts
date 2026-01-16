@@ -80,3 +80,16 @@ export interface PaymentState {
     cashReceived: number;
     change: number;
 }
+
+// Payload Types for Validation
+export interface OrderItemPayload {
+    product_id: string;
+    quantity: number;
+    price: number;
+}
+
+export interface OrderPayload {
+    total_amount: number;
+    cash_received?: number;
+    items: OrderItemPayload[];
+}
