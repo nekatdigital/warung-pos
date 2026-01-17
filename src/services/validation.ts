@@ -8,10 +8,12 @@ export interface ValidationError {
   message: string;
 }
 
+import type { CategoryPayload, OrderItemPayload, OrderPayload, ProductPayload, VendorPayload } from '../types';
+
 /**
  * Validate product input
  */
-export function validateProduct(data: any): ValidationError[] {
+export function validateProduct(data: ProductPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -36,7 +38,7 @@ export function validateProduct(data: any): ValidationError[] {
 /**
  * Validate category input
  */
-export function validateCategory(data: any): ValidationError[] {
+export function validateCategory(data: CategoryPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -49,7 +51,7 @@ export function validateCategory(data: any): ValidationError[] {
 /**
  * Validate vendor input
  */
-export function validateVendor(data: any): ValidationError[] {
+export function validateVendor(data: VendorPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -87,16 +89,59 @@ export function validatePayment(
 }
 
 /**
+ * Validate a single order item.
+ * @param item - The order item to validate.
+ * @param index - The index of the item in the order, for error reporting.
+ * @returns An array of validation errors.
+ */
+export function validateOrderItem(item: OrderItemPayload, index: number): ValidationError[] {
+  const errors: ValidationError[] = [];
+  const prefix = `items[${index}]`;
+
+  if (!item.product_name || typeof item.product_name !== 'string') {
+    errors.push({ field: `${prefix}.product_name`, message: 'Product name is invalid' });
+  }
+
+  if (typeof item.unit_price !== 'number' || item.unit_price <= 0) {
+    errors.push({ field: `${prefix}.unit_price`, message: 'Unit price must be a positive number' });
+  }
+
+  if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+    errors.push({ field: `${prefix}.quantity`, message: 'Quantity must be a positive number' });
+  }
+
+  if (typeof item.subtotal !== 'number' || item.subtotal < 0) {
+    errors.push({ field: `${prefix}.subtotal`, message: 'Subtotal must be a non-negative number' });
+  }
+
+  // Security check: Ensure subtotal equals unit_price * quantity to prevent tampering.
+  // The backend should always recalculate this, but client-side validation adds a layer of defense.
+  const expectedSubtotal = (item.unit_price || 0) * (item.quantity || 0);
+  if (typeof item.subtotal === 'number' && Math.abs(item.subtotal - expectedSubtotal) > 0.001) { // Allow for small floating point inaccuracies
+      errors.push({ field: `${prefix}.subtotal`, message: 'Subtotal mismatch. Expected calculation does not match provided subtotal.' });
+  }
+
+  return errors;
+}
+
+
+/**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
-  const errors: ValidationError[] = [];
+export function validateOrder(data: OrderPayload): ValidationError[] {
+  let errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
     errors.push({ field: 'total_amount', message: 'Order total must be greater than 0' });
   }
 
-  if (!Array.isArray(data.items) || data.items.length === 0) {
+  // Security: Deep validate each item in the order to prevent data corruption.
+  // Without this, an order could be created with invalid or malicious item data.
+  if (Array.isArray(data.items) && data.items.length > 0) {
+    data.items.forEach((item, index) => {
+      errors = errors.concat(validateOrderItem(item, index));
+    });
+  } else {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
   }
 
@@ -131,7 +176,7 @@ export function getFieldError(errors: ValidationError[], field: string): string 
 /**
  * Safe number parsing
  */
-export function parseNumber(value: any, defaultValue: number = 0): number {
+export function parseNumber(value: unknown, defaultValue: number = 0): number {
   const num = Number(value);
   return Number.isFinite(num) ? num : defaultValue;
 }
@@ -139,7 +184,7 @@ export function parseNumber(value: any, defaultValue: number = 0): number {
 /**
  * Safe string parsing
  */
-export function parseString(value: any, defaultValue: string = ''): string {
+export function parseString(value: unknown, defaultValue: string = ''): string {
   return typeof value === 'string' ? value.trim() : defaultValue;
 }
 
