@@ -3,6 +3,8 @@
  * Provides input validation and error handling
  */
 
+import type { OrderItemPayload } from '../types';
+
 export interface ValidationError {
   field: string;
   message: string;
@@ -88,6 +90,9 @@ export function validatePayment(
 
 /**
  * Validate order data
+ * @security Important: This validation runs on the client-side and is for UX purposes.
+ * All order totals and subtotals MUST be recalculated on the server from a trusted price source
+ * to prevent price tampering.
  */
 export function validateOrder(data: any): ValidationError[] {
   const errors: ValidationError[] = [];
@@ -98,6 +103,25 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    data.items.forEach((item: OrderItemPayload, index: number) => {
+      if (!item.product_name || typeof item.product_name !== 'string') {
+        errors.push({ field: `items[${index}].product_name`, message: 'Product name is required' });
+      }
+      if (typeof item.unit_price !== 'number' || item.unit_price <= 0) {
+        errors.push({ field: `items[${index}].unit_price`, message: 'Unit price must be positive' });
+      }
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be positive' });
+      }
+      if (typeof item.subtotal !== 'number' || item.subtotal <= 0) {
+        errors.push({ field: `items[${index}].subtotal`, message: 'Subtotal must be positive' });
+      }
+      // Security: Ensure client-side subtotal matches server-side calculation
+      if (item.unit_price * item.quantity !== item.subtotal) {
+        errors.push({ field: `items[${index}].subtotal`, message: 'Subtotal mismatch detected' });
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
