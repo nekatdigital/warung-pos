@@ -3,6 +3,8 @@
  * Provides input validation and error handling
  */
 
+import type { CategoryPayload, OrderPayload, ProductPayload, VendorPayload } from "../types";
+
 export interface ValidationError {
   field: string;
   message: string;
@@ -11,7 +13,7 @@ export interface ValidationError {
 /**
  * Validate product input
  */
-export function validateProduct(data: any): ValidationError[] {
+export function validateProduct(data: Partial<ProductPayload>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -36,7 +38,7 @@ export function validateProduct(data: any): ValidationError[] {
 /**
  * Validate category input
  */
-export function validateCategory(data: any): ValidationError[] {
+export function validateCategory(data: Partial<CategoryPayload>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -49,7 +51,7 @@ export function validateCategory(data: any): ValidationError[] {
 /**
  * Validate vendor input
  */
-export function validateVendor(data: any): ValidationError[] {
+export function validateVendor(data: Partial<VendorPayload>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -89,7 +91,7 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: Partial<OrderPayload>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
@@ -98,6 +100,18 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    data.items.forEach((item, index) => {
+      if (!item.product_name || typeof item.product_name !== 'string') {
+        errors.push({ field: `items[${index}].product_name`, message: 'Product name is required' });
+      }
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be greater than 0' });
+      }
+      if (typeof item.subtotal !== 'number' || item.subtotal <= 0) {
+        errors.push({ field: `items[${index}].subtotal`, message: 'Subtotal must be greater than 0' });
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
@@ -131,7 +145,7 @@ export function getFieldError(errors: ValidationError[], field: string): string 
 /**
  * Safe number parsing
  */
-export function parseNumber(value: any, defaultValue: number = 0): number {
+export function parseNumber(value: unknown, defaultValue: number = 0): number {
   const num = Number(value);
   return Number.isFinite(num) ? num : defaultValue;
 }
@@ -139,7 +153,7 @@ export function parseNumber(value: any, defaultValue: number = 0): number {
 /**
  * Safe string parsing
  */
-export function parseString(value: any, defaultValue: string = ''): string {
+export function parseString(value: unknown, defaultValue: string = ''): string {
   return typeof value === 'string' ? value.trim() : defaultValue;
 }
 
