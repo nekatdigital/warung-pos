@@ -52,6 +52,16 @@ export interface OrderItem {
     created_at: string;
 }
 
+// --- PAYLOAD TYPES for Validation ---
+export type ProductPayload = Omit<Product, 'id' | 'created_at' | 'vendor_name' | 'category_name'>;
+export type CategoryPayload = Omit<Category, 'id'>;
+export type VendorPayload = Omit<Vendor, 'id' | 'created_at'>;
+export type OrderPayload = Omit<Order, 'id' | 'created_at' | 'order_date' | 'change_amount'> & {
+    items: OrderItemPayload[];
+};
+export type OrderItemPayload = Omit<OrderItem, 'id' | 'order_id' | 'created_at'>;
+
+
 // Cart (Frontend State)
 export interface CartItem extends Omit<Product, 'is_active' | 'created_at'> {
     quantity: number;
