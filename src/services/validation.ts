@@ -3,6 +3,8 @@
  * Provides input validation and error handling
  */
 
+import type { OrderItemPayload, OrderPayload, ProductType } from '../types';
+
 export interface ValidationError {
   field: string;
   message: string;
@@ -87,24 +89,75 @@ export function validatePayment(
 }
 
 /**
+ * Validate a single order item
+ */
+export function validateOrderItem(item: OrderItemPayload, index: number): ValidationError[] {
+    const errors: ValidationError[] = [];
+    const prefix = `items[${index}]`;
+
+    if (!item.product_name || typeof item.product_name !== 'string') {
+        errors.push({ field: `${prefix}.product_name`, message: 'Product name is required' });
+    }
+
+    if (typeof item.unit_price !== 'number' || item.unit_price <= 0) {
+        errors.push({ field: `${prefix}.unit_price`, message: 'Unit price must be a positive number' });
+    }
+
+    if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `${prefix}.quantity`, message: 'Quantity must be a positive number' });
+    }
+
+    if (typeof item.subtotal !== 'number' || item.subtotal <= 0) {
+        errors.push({ field: `${prefix}.subtotal`, message: 'Subtotal must be a positive number' });
+    }
+
+    // Security check: Verify that the subtotal is consistent with price and quantity.
+    // This prevents price tampering on the client-side. The final source of truth should always be the server.
+    if (item.unit_price && item.quantity) {
+        const expectedSubtotal = item.unit_price * item.quantity;
+        if (Math.abs(item.subtotal - expectedSubtotal) > 0.001) { // Use a small tolerance for floating point
+            errors.push({ field: `${prefix}.subtotal`, message: `Subtotal does not match unit price and quantity.` });
+        }
+    }
+
+    const validProductTypes: ProductType[] = ['OWN_PRODUCTION', 'RESELL', 'CONSIGNMENT'];
+    if (!item.product_type || !validProductTypes.includes(item.product_type)) {
+        errors.push({ field: `${prefix}.product_type`, message: 'Invalid product type for item' });
+    }
+
+    return errors;
+}
+
+/**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
-  const errors: ValidationError[] = [];
+export function validateOrder(data: OrderPayload): ValidationError[] {
+    let errors: ValidationError[] = [];
 
-  if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
-    errors.push({ field: 'total_amount', message: 'Order total must be greater than 0' });
-  }
+    if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
+        errors.push({ field: 'total_amount', message: 'Order total must be greater than 0' });
+    }
 
-  if (!Array.isArray(data.items) || data.items.length === 0) {
-    errors.push({ field: 'items', message: 'Order must contain at least one item' });
-  }
+    if (!Array.isArray(data.items) || data.items.length === 0) {
+        errors.push({ field: 'items', message: 'Order must contain at least one item' });
+    } else {
+        // Deep validation of each order item
+        data.items.forEach((item, index) => {
+            errors = errors.concat(validateOrderItem(item, index));
+        });
 
-  if (data.cash_received && typeof data.cash_received !== 'number') {
-    errors.push({ field: 'cash_received', message: 'Invalid cash amount' });
-  }
+        // Security check: Verify that the sum of item subtotals equals the total_amount
+        const subtotalsSum = data.items.reduce((sum, item) => sum + (item.subtotal || 0), 0);
+        if (Math.abs(data.total_amount - subtotalsSum) > 0.001) { // Use a small tolerance for floating point
+            errors.push({ field: 'total_amount', message: 'Total amount does not match the sum of item subtotals.' });
+        }
+    }
 
-  return errors;
+    if (data.cash_received && typeof data.cash_received !== 'number') {
+        errors.push({ field: 'cash_received', message: 'Invalid cash amount' });
+    }
+
+    return errors;
 }
 
 /**
