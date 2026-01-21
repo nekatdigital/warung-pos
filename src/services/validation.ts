@@ -3,6 +3,8 @@
  * Provides input validation and error handling
  */
 
+import type { OrderPayload, Product, Category, Vendor } from '../types';
+
 export interface ValidationError {
   field: string;
   message: string;
@@ -11,7 +13,7 @@ export interface ValidationError {
 /**
  * Validate product input
  */
-export function validateProduct(data: any): ValidationError[] {
+export function validateProduct(data: Partial<Product>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -36,7 +38,7 @@ export function validateProduct(data: any): ValidationError[] {
 /**
  * Validate category input
  */
-export function validateCategory(data: any): ValidationError[] {
+export function validateCategory(data: Partial<Category>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -49,7 +51,7 @@ export function validateCategory(data: any): ValidationError[] {
 /**
  * Validate vendor input
  */
-export function validateVendor(data: any): ValidationError[] {
+export function validateVendor(data: Partial<Vendor>): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
@@ -89,7 +91,7 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: OrderPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
@@ -98,6 +100,37 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+    // If no items, no further validation is possible
+    return errors;
+  }
+
+  let calculatedTotal = 0;
+
+  data.items.forEach((item, index) => {
+    if (typeof item.quantity !== 'number' || !Number.isInteger(item.quantity) || item.quantity <= 0) {
+      errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be a positive integer' });
+    }
+
+    if (typeof item.unit_price !== 'number' || item.unit_price < 0) {
+      errors.push({ field: `items[${index}].unit_price`, message: 'Unit price must be a non-negative number' });
+    }
+
+    if (typeof item.subtotal !== 'number' || item.subtotal < 0) {
+      errors.push({ field: `items[${index}].subtotal`, message: 'Subtotal must be a non-negative number' });
+    }
+
+    // Security check: Verify that the subtotal matches the calculated value to prevent tampering
+    const expectedSubtotal = (item.unit_price || 0) * (item.quantity || 0);
+    if (Math.abs(item.subtotal - expectedSubtotal) > 0.01) { // Using epsilon for float comparison
+      errors.push({ field: `items[${index}].subtotal`, message: 'Subtotal does not match unit price and quantity' });
+    }
+
+    calculatedTotal += item.subtotal;
+  });
+
+  // Security check: Verify that the sum of item subtotals equals the order's total_amount
+  if (Math.abs(calculatedTotal - data.total_amount) > 0.01) {
+    errors.push({ field: 'total_amount', message: 'Total amount does not match the sum of item subtotals' });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
@@ -131,7 +164,7 @@ export function getFieldError(errors: ValidationError[], field: string): string 
 /**
  * Safe number parsing
  */
-export function parseNumber(value: any, defaultValue: number = 0): number {
+export function parseNumber(value: unknown, defaultValue: number = 0): number {
   const num = Number(value);
   return Number.isFinite(num) ? num : defaultValue;
 }
@@ -139,7 +172,7 @@ export function parseNumber(value: any, defaultValue: number = 0): number {
 /**
  * Safe string parsing
  */
-export function parseString(value: any, defaultValue: string = ''): string {
+export function parseString(value: unknown, defaultValue: string = ''): string {
   return typeof value === 'string' ? value.trim() : defaultValue;
 }
 
