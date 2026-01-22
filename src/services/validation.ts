@@ -2,6 +2,7 @@
  * Validation Utilities
  * Provides input validation and error handling
  */
+import type { OrderPayload } from '../types';
 
 export interface ValidationError {
   field: string;
@@ -89,7 +90,7 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: OrderPayload): ValidationError[] {
   const errors: ValidationError[] = [];
 
   if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
@@ -98,6 +99,19 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    data.items.forEach((item, index) => {
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be a positive number' });
+      }
+      if (typeof item.unit_price !== 'number' || item.unit_price < 0) {
+        errors.push({ field: `items[${index}].unit_price`, message: 'Unit price must be a non-negative number' });
+      }
+      // Security check: ensure subtotal matches price * quantity to prevent tampering
+      if (typeof item.subtotal !== 'number' || item.subtotal !== item.unit_price * item.quantity) {
+        errors.push({ field: `items[${index}].subtotal`, message: 'Subtotal does not match price and quantity' });
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
