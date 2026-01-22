@@ -52,6 +52,13 @@ export interface OrderItem {
     created_at: string;
 }
 
+// Payloads for incoming data validation
+export type OrderItemPayload = Omit<OrderItem, 'id' | 'order_id' | 'created_at'>;
+
+export type OrderPayload = Pick<Order, 'total_amount' | 'cash_received'> & {
+  items: OrderItemPayload[];
+};
+
 // Cart (Frontend State)
 export interface CartItem extends Omit<Product, 'is_active' | 'created_at'> {
     quantity: number;
