@@ -88,6 +88,11 @@ export function validatePayment(
 
 /**
  * Validate order data
+ * SECURITY: This function performs deep validation on the order payload.
+ * It's critical to not only check for the presence of an items array
+ * but also to validate each object within it. Without this, malicious
+ * actors could pass invalid data (e.g., negative prices or quantities)
+ * to corrupt order totals or exploit business logic.
  */
 export function validateOrder(data: any): ValidationError[] {
   const errors: ValidationError[] = [];
@@ -98,6 +103,30 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    // SECURITY: Iterate through each item to ensure data integrity.
+    data.items.forEach((item: any, index: number) => {
+      if (!item.product_name || typeof item.product_name !== 'string' || item.product_name.trim() === '') {
+        errors.push({ field: `items[${index}].product_name`, message: 'Product name is required for item ' + (index + 1) });
+      }
+      if (typeof item.unit_price !== 'number' || item.unit_price <= 0) {
+        errors.push({ field: `items[${index}].unit_price`, message: 'Unit price must be positive for item ' + (index + 1) });
+      }
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be positive for item ' + (index + 1) });
+      }
+      if (typeof item.subtotal !== 'number' || item.subtotal <= 0) {
+        errors.push({ field: `items[${index}].subtotal`, message: 'Subtotal must be positive for item ' + (index + 1) });
+      }
+      // SECURITY: Verify that subtotal matches price * quantity to prevent price tampering from client-side.
+      if (item.unit_price && item.quantity && item.subtotal) {
+        const calculatedSubtotal = item.unit_price * item.quantity;
+        // Use a small epsilon for float comparison to avoid precision issues.
+        if (Math.abs(calculatedSubtotal - item.subtotal) > 0.001) {
+          errors.push({ field: `items[${index}].subtotal`, message: `Subtotal for item ${index + 1} is incorrect` });
+        }
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
