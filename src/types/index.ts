@@ -80,3 +80,10 @@ export interface PaymentState {
     cashReceived: number;
     change: number;
 }
+
+// Payloads
+export type OrderItemPayload = Omit<OrderItem, 'id' | 'order_id' | 'created_at'>;
+
+export interface OrderPayload extends Omit<Order, 'id' | 'order_date' | 'created_at' | 'change_amount'> {
+  items: OrderItemPayload[];
+}
