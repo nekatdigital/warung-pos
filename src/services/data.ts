@@ -166,14 +166,16 @@ export async function getProductsByVendor(vendorId: string): Promise<Product[]> 
 // ==================== ORDERS ====================
 
 export async function createOrder(
-  totalAmount: number,
   cashReceived: number,
-  changeAmount: number,
   cartItems: CartItem[]
 ): Promise<Order | null> {
   try {
+    // Security enhancement: Recalculate total from cart items to prevent client-side manipulation.
+    const calculatedTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+    const calculatedChange = cashReceived - calculatedTotal;
+
     // Validate inputs
-    if (totalAmount <= 0) {
+    if (calculatedTotal <= 0) {
       throw new Error('Total amount must be greater than 0');
     }
     if (cartItems.length === 0) {
@@ -183,9 +185,9 @@ export async function createOrder(
     // Create order
     const newOrder: Order = {
       id: `order_${Date.now()}`,
-      total_amount: totalAmount,
+      total_amount: calculatedTotal,
       cash_received: cashReceived,
-      change_amount: changeAmount,
+      change_amount: calculatedChange,
       order_date: new Date().toISOString().split('T')[0],
       created_at: new Date().toISOString(),
     };
