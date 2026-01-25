@@ -114,7 +114,7 @@ export function CashierPage() {
             }
 
             // Save order to IndexedDB
-            const order = await createOrder(total, cashReceived, change, cart);
+            const order = await createOrder(cashReceived, cart);
 
             if (!order) {
                 throw new Error('Gagal menyimpan pesanan');
