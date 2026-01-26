@@ -1,0 +1,4 @@
+## 2024-08-16 - Price Tampering via Client-Side Total Calculation
+**Vulnerability:** The `createOrder` function in `src/services/data.ts` blindly trusted the `totalAmount` provided by the client. This would allow an attacker to modify the POST request and pay any amount they want for a cart of items, effectively stealing products.
+**Learning:** The vulnerability existed because the application architecture trusted a client-side calculation for a sensitive financial value. The total was calculated in the frontend and passed to the data service, which accepted it without recalculating it from a trusted source.
+**Prevention:** For any financial transaction, the server-side (or in this case, the central data service layer) MUST recalculate the total amount from trusted, non-malleable data, such as the product price stored in the database and the quantity from the cart. The client-provided total should be ignored or used only for a preliminary check.
