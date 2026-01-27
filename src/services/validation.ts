@@ -1,3 +1,5 @@
+import type { CartItem } from '../types';
+
 /**
  * Validation Utilities
  * Provides input validation and error handling
@@ -98,6 +100,18 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    data.items.forEach((item: CartItem, index: number) => {
+      if (!item.id || typeof item.id !== 'string') {
+        errors.push({ field: `items[${index}].id`, message: 'Product ID is required' });
+      }
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({ field: `items[${index}].quantity`, message: 'Quantity must be a positive number' });
+      }
+      if (typeof item.price !== 'number' || item.price < 0) {
+        errors.push({ field: `items[${index}].price`, message: 'Price must be a non-negative number' });
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
