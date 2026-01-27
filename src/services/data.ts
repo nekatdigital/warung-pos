@@ -166,12 +166,14 @@ export async function getProductsByVendor(vendorId: string): Promise<Product[]> 
 // ==================== ORDERS ====================
 
 export async function createOrder(
-  totalAmount: number,
   cashReceived: number,
   changeAmount: number,
   cartItems: CartItem[]
 ): Promise<Order | null> {
   try {
+    // Recalculate total amount in a trusted context to prevent client-side tampering
+    const totalAmount = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
     // Validate inputs
     if (totalAmount <= 0) {
       throw new Error('Total amount must be greater than 0');
