@@ -2,6 +2,7 @@
  * Validation Utilities
  * Provides input validation and error handling
  */
+import type { OrderItem } from '../types';
 
 export interface ValidationError {
   field: string;
@@ -87,6 +88,41 @@ export function validatePayment(
 }
 
 /**
+ * Validate a single order item
+ */
+export function validateOrderItem(item: Partial<OrderItem>, index: number): ValidationError[] {
+  const errors: ValidationError[] = [];
+  const fieldPrefix = `items[${index}]`;
+
+  if (!item.product_name || typeof item.product_name !== 'string' || item.product_name.trim() === '') {
+    errors.push({ field: `${fieldPrefix}.product_name`, message: 'Product name is required' });
+  }
+
+  if (typeof item.unit_price !== 'number' || item.unit_price <= 0) {
+    errors.push({ field: `${fieldPrefix}.unit_price`, message: 'Unit price must be greater than 0' });
+  }
+
+  if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+    errors.push({ field: `${fieldPrefix}.quantity`, message: 'Quantity must be greater than 0' });
+  }
+
+  if (typeof item.subtotal !== 'number' || item.subtotal <= 0) {
+    errors.push({ field: `${fieldPrefix}.subtotal`, message: 'Subtotal must be greater than 0' });
+  }
+
+  // Security check: Ensure subtotal is not tampered with client-side.
+  // This prevents price manipulation by ensuring the subtotal matches the server-side calculation.
+  if (typeof item.unit_price === 'number' && typeof item.quantity === 'number') {
+    if (item.subtotal !== item.unit_price * item.quantity) {
+      errors.push({ field: `${fieldPrefix}.subtotal`, message: 'Subtotal does not match unit price and quantity' });
+    }
+  }
+
+  return errors;
+}
+
+
+/**
  * Validate order data
  */
 export function validateOrder(data: any): ValidationError[] {
@@ -98,6 +134,11 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    // Deep validate each item in the order
+    data.items.forEach((item: any, index: number) => {
+      errors.push(...validateOrderItem(item, index));
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
