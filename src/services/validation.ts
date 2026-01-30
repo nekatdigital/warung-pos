@@ -98,6 +98,32 @@ export function validateOrder(data: any): ValidationError[] {
 
   if (!Array.isArray(data.items) || data.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    // 🛡️ Sentinel: Deep validate each item to prevent data corruption.
+    data.items.forEach((item: any, index: number) => {
+      if (item == null || typeof item !== 'object') {
+        errors.push({ field: `items[${index}]`, message: 'Order item is invalid' });
+        return;
+      }
+      if (typeof item.product_id !== 'number' || item.product_id <= 0) {
+        errors.push({
+          field: `items[${index}].product_id`,
+          message: 'Product ID must be a positive number',
+        });
+      }
+      if (typeof item.quantity !== 'number' || item.quantity <= 0) {
+        errors.push({
+          field: `items[${index}].quantity`,
+          message: 'Quantity must be a positive number',
+        });
+      }
+      if (typeof item.unit_price !== 'number' || item.unit_price < 0) {
+        errors.push({
+          field: `items[${index}].unit_price`,
+          message: 'Unit price cannot be negative',
+        });
+      }
+    });
   }
 
   if (data.cash_received && typeof data.cash_received !== 'number') {
