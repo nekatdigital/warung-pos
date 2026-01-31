@@ -11,22 +11,29 @@ export interface ValidationError {
 /**
  * Validate product input
  */
-export function validateProduct(data: any): ValidationError[] {
+export function validateProduct(data: unknown): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
+  if (!data || typeof data !== 'object') {
+    errors.push({ field: 'data', message: 'Invalid product data' });
+    return errors;
+  }
+
+  const productData = data as any;
+
+  if (!productData.name || typeof productData.name !== 'string' || productData.name.trim() === '') {
     errors.push({ field: 'name', message: 'Product name is required' });
   }
 
-  if (typeof data.price !== 'number' || data.price <= 0) {
+  if (typeof productData.price !== 'number' || productData.price <= 0) {
     errors.push({ field: 'price', message: 'Price must be greater than 0' });
   }
 
-  if (!data.product_type || !['OWN_PRODUCTION', 'RESELL', 'CONSIGNMENT'].includes(data.product_type)) {
+  if (!productData.product_type || !['OWN_PRODUCTION', 'RESELL', 'CONSIGNMENT'].includes(productData.product_type)) {
     errors.push({ field: 'product_type', message: 'Invalid product type' });
   }
 
-  if (data.product_type === 'CONSIGNMENT' && !data.vendor_id) {
+  if (productData.product_type === 'CONSIGNMENT' && !productData.vendor_id) {
     errors.push({ field: 'vendor_id', message: 'Vendor is required for consignment products' });
   }
 
@@ -36,10 +43,17 @@ export function validateProduct(data: any): ValidationError[] {
 /**
  * Validate category input
  */
-export function validateCategory(data: any): ValidationError[] {
+export function validateCategory(data: unknown): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
+  if (!data || typeof data !== 'object') {
+    errors.push({ field: 'data', message: 'Invalid category data' });
+    return errors;
+  }
+
+  const categoryData = data as any;
+
+  if (!categoryData.name || typeof categoryData.name !== 'string' || categoryData.name.trim() === '') {
     errors.push({ field: 'name', message: 'Category name is required' });
   }
 
@@ -49,14 +63,21 @@ export function validateCategory(data: any): ValidationError[] {
 /**
  * Validate vendor input
  */
-export function validateVendor(data: any): ValidationError[] {
+export function validateVendor(data: unknown): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  if (!data.name || typeof data.name !== 'string' || data.name.trim() === '') {
+  if (!data || typeof data !== 'object') {
+    errors.push({ field: 'data', message: 'Invalid vendor data' });
+    return errors;
+  }
+
+  const vendorData = data as any;
+
+  if (!vendorData.name || typeof vendorData.name !== 'string' || vendorData.name.trim() === '') {
     errors.push({ field: 'name', message: 'Vendor name is required' });
   }
 
-  if (data.phone && !/^[0-9+\-\s()]*$/.test(data.phone)) {
+  if (vendorData.phone && !/^[0-9+\-\s()]*$/.test(vendorData.phone)) {
     errors.push({ field: 'phone', message: 'Invalid phone number format' });
   }
 
@@ -89,18 +110,37 @@ export function validatePayment(
 /**
  * Validate order data
  */
-export function validateOrder(data: any): ValidationError[] {
+export function validateOrder(data: unknown): ValidationError[] {
   const errors: ValidationError[] = [];
 
-  if (!data.total_amount || typeof data.total_amount !== 'number' || data.total_amount <= 0) {
+  if (!data || typeof data !== 'object') {
+    errors.push({ field: 'data', message: 'Invalid order data' });
+    return errors;
+  }
+
+  const orderData = data as Record<string, any>;
+
+  if (!orderData.total_amount || typeof orderData.total_amount !== 'number' || orderData.total_amount <= 0) {
     errors.push({ field: 'total_amount', message: 'Order total must be greater than 0' });
   }
 
-  if (!Array.isArray(data.items) || data.items.length === 0) {
+  if (!Array.isArray(orderData.items) || orderData.items.length === 0) {
     errors.push({ field: 'items', message: 'Order must contain at least one item' });
+  } else {
+    // SECURITY: Verify that the total amount matches the sum of individual item subtotals
+    // This provides defense-in-depth against client-side tampering
+    const calculatedTotal = orderData.items.reduce((sum: number, item: any) => {
+      const price = typeof item.price === 'number' ? item.price : 0;
+      const quantity = typeof item.quantity === 'number' ? item.quantity : 0;
+      return sum + (price * quantity);
+    }, 0);
+
+    if (typeof orderData.total_amount === 'number' && Math.abs(calculatedTotal - orderData.total_amount) > 0.01) {
+      errors.push({ field: 'total_amount', message: 'Order total does not match items sum' });
+    }
   }
 
-  if (data.cash_received && typeof data.cash_received !== 'number') {
+  if (orderData.cash_received && typeof orderData.cash_received !== 'number') {
     errors.push({ field: 'cash_received', message: 'Invalid cash amount' });
   }
 
@@ -131,7 +171,7 @@ export function getFieldError(errors: ValidationError[], field: string): string 
 /**
  * Safe number parsing
  */
-export function parseNumber(value: any, defaultValue: number = 0): number {
+export function parseNumber(value: unknown, defaultValue: number = 0): number {
   const num = Number(value);
   return Number.isFinite(num) ? num : defaultValue;
 }
@@ -139,7 +179,7 @@ export function parseNumber(value: any, defaultValue: number = 0): number {
 /**
  * Safe string parsing
  */
-export function parseString(value: any, defaultValue: string = ''): string {
+export function parseString(value: unknown, defaultValue: string = ''): string {
   return typeof value === 'string' ? value.trim() : defaultValue;
 }
 
