@@ -166,26 +166,36 @@ export async function getProductsByVendor(vendorId: string): Promise<Product[]> 
 // ==================== ORDERS ====================
 
 export async function createOrder(
-  totalAmount: number,
+  _totalAmount: number,
   cashReceived: number,
-  changeAmount: number,
+  _changeAmount: number,
   cartItems: CartItem[]
 ): Promise<Order | null> {
   try {
+    // SECURITY: Recalculate total from cart items to prevent price tampering
+    // We do not trust the totalAmount passed from the client
+    const calculatedTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
+
     // Validate inputs
-    if (totalAmount <= 0) {
+    if (calculatedTotal <= 0) {
       throw new Error('Total amount must be greater than 0');
     }
     if (cartItems.length === 0) {
       throw new Error('Cart cannot be empty');
     }
+    if (cashReceived < calculatedTotal) {
+      throw new Error('Insufficient cash received');
+    }
+
+    // SECURITY: Recalculate change amount to ensure accuracy
+    const actualChange = cashReceived - calculatedTotal;
 
     // Create order
     const newOrder: Order = {
       id: `order_${Date.now()}`,
-      total_amount: totalAmount,
+      total_amount: calculatedTotal,
       cash_received: cashReceived,
-      change_amount: changeAmount,
+      change_amount: actualChange,
       order_date: new Date().toISOString().split('T')[0],
       created_at: new Date().toISOString(),
     };
@@ -381,9 +391,12 @@ export async function exportData() {
 /**
  * Import data from JSON (for restore)
  */
-export async function importData(data: any) {
+export async function importData(data: unknown) {
   try {
-    const { products, categories, vendors, orders, orderItems } = data;
+    if (!data || typeof data !== 'object') {
+      throw new Error('Invalid import data');
+    }
+    const { products, categories, vendors, orders, orderItems } = data as Record<string, any>;
 
     if (categories) await db.categories.bulkAdd(categories);
     if (vendors) await db.vendors.bulkAdd(vendors);
